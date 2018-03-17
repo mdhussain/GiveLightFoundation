@@ -15,7 +15,7 @@ const cookieParser = require('cookie-parser')
 const app = express()
 const db = require('./lib/db')
 const auth = require('./lib/auth')
-const mailer = require('./lib/mailer')
+const email = require('./app/api/email')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const publicDir = __dirname + '/app'
@@ -38,7 +38,7 @@ app.post('/api/login', (req, res, next) => {
         }
         req.login(user, () => {
             return res.json(user)
-        })    
+        })
     })(req, res, next)
 
 })
@@ -53,21 +53,21 @@ const prepareSearchQuery = (searchQuery) => {
     if (searchQuery.interests) {
         searchQuery.interests = {
             $in: searchQuery.interests
-        } 
+        }
     }
     else if (searchQuery.skills) {
-        const regexSkills = searchQuery.skills.map( (skill) => {
+        const regexSkills = searchQuery.skills.map((skill) => {
             return new RegExp(skill, "gi")
         })
         searchQuery.skills = {
             $in: regexSkills
-        } 
+        }
     }
-    var query = { $or: []}
-    Object.keys(searchQuery).map( key => {
+    var query = { $or: [] }
+    Object.keys(searchQuery).map(key => {
         var keyObj = {}
         keyObj[key] = searchQuery[key]
-        query['$or'].push(keyObj)    
+        query['$or'].push(keyObj)
     })
     return query
 }
@@ -125,12 +125,12 @@ app.get('/api/admin/users', (req, res) => {
 app.get('/api/admin/user/exportData', (req, res) => {
     db.getAll('user').then((results) => {
         var headers = Object.keys(results[0])
-        var conf ={}
+        var conf = {}
         conf.stylesXmlFile = "./lib/styles.xml"
         conf.name = "UserData"
         conf.cols = headers
-        
-        var values = results.map( result => {
+
+        var values = results.map(result => {
             delete result['passphrase']
             return Object.values(result)
         })
@@ -152,7 +152,7 @@ app.post('/api/user', (req, res) => {
     // It is good practice to specifically pick the fields we want to insert here *in the backend*,
     // even if we have already done so on the front end. This is to prevent malicious users
     // from adding unexpected fields by modifying the front end JS in the browser.
-    var newUser =  _.pick(req.body, [
+    var newUser = _.pick(req.body, [
         'name', 'email', 'country', 'region', 'phone', 'interests', 'passphrase', 'skills'
     ])
     newUser.isAdmin = false
@@ -160,7 +160,7 @@ app.post('/api/user', (req, res) => {
     db.insertOne('user', newUser).then(result => {
         var userRecord = req.body
         userRecord.recordType = 'New User'
-        mailer.notifyAdmin(userRecord)
+        email.notifyAdmin(userRecord)
         return res.json(result)
     }).catch(error => {
         console.log(error)
@@ -170,7 +170,7 @@ app.post('/api/user', (req, res) => {
 
 app.post('/api/admin/user/makeAdmin', (req, res) => {
     if (auth.isAdmin(req)) {
-        db.getByEmail('user', _.pick(req.body, ['email'])).then( volunteer => {
+        db.getByEmail('user', _.pick(req.body, ['email'])).then(volunteer => {
             volunteer.isAdmin = true
             volunteer.approvedBy = req.user._id
             db.updateOneById('user', volunteer).then(result => {
@@ -179,7 +179,7 @@ app.post('/api/admin/user/makeAdmin', (req, res) => {
                 console.log(error)
                 return res.status(200).json(error)
             })
-        }).catch( error => {
+        }).catch(error => {
             console.log('error in getByEmail', error)
         })
     }
@@ -193,7 +193,7 @@ app.put('/api/user', (req, res) => {
         db.updateOneById('user', req.body).then(result => {
             var userRecord = req.body;
             userRecord.recordType = 'User Profile Update'
-            mailer.notifyAdmin(userRecord);
+            email.notifyAdmin(userRecord);
             return res.json(result);
         }).catch(error => {
             console.log(error)
@@ -203,6 +203,14 @@ app.put('/api/user', (req, res) => {
         return res.json({ error: 'Not authenticated' })
     }
 })
+
+app.post('/api/users/email', (req, res) => {
+    if (auth.isAdmin(req)) {
+        return email.sendEmail(req, res);
+    } else {
+        return res.json({ error: 'You do not have permission to access this resource...' });
+    }
+});
 
 app.use(express.static(publicDir))
 app.use(errorHandler({
