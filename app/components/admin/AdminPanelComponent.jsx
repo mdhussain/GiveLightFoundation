@@ -115,11 +115,10 @@ class AdminPanelComponent extends React.Component {
 
         if (Object.keys(searchQuery).length != 0) {
             searchVolunteers(searchQuery).then( response => {
-                console.log(response)
-                if (response.length) {
+                if (response.result.length > 0) {
                     this.setState({
                         ...this.state,
-                        filteredVolunteers: response,
+                        filteredVolunteers: response.result,
                         loadingScreenShow: false,
                         searchQuery: {
                             ...searchQuery,
@@ -138,7 +137,7 @@ class AdminPanelComponent extends React.Component {
 
                 }
             }).catch( error => {
-                console.log(error)
+                console.log("ERRROR: ", error)
                 this.setState({ ...this.state, loadingScreenShow: false })
             })
         }

@@ -91,6 +91,7 @@ const makeAdmin = (volunteerEmail) => {
 const searchVolunteers = (searchQuery) => {
     return new Promise((resolve, reject) => {
         return makeRequest(searchQuery, 'POST', '/api/admin/search/users').then(response => {
+            console.log("herrrrre: ", response)
             return resolve(response.json())
         }).catch(error => {
             window.alert('Error retrieving user')
