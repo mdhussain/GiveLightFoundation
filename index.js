@@ -17,6 +17,7 @@ const db = require('./lib/db')
 const auth = require('./lib/auth')
 const mailer = require('./lib/mailer')
 const profile = require('./app/api/profile')
+const sms = require('./app/api/sms')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const publicDir = __dirname + '/app'
@@ -178,6 +179,14 @@ app.put('/api/user', (req, res) => {
         return res.json({ error: 'Not authenticated' })
     }
 })
+
+app.post('/api/users/sms', (req, res) => {
+    if (auth.isAdmin(req)) {
+        return sms.sendSms(req, res);
+    } else {
+        return res.json({ error: 'You do not have permission to access this resource...' });
+    }
+});
 
 app.use(express.static(publicDir))
 app.use(errorHandler({
