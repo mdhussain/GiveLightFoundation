@@ -16,6 +16,7 @@ const app = express()
 const db = require('./lib/db')
 const auth = require('./lib/auth')
 const mailer = require('./lib/mailer')
+const profile = require('./app/api/profile')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const publicDir = __dirname + '/app'
@@ -38,7 +39,7 @@ app.post('/api/login', (req, res, next) => {
         }
         req.login(user, () => {
             return res.json(user)
-        })    
+        })
     })(req, res, next)
 
 })
@@ -49,35 +50,9 @@ app.get('/api/auth/facebook/callback', passport.authenticate('facebook', { failu
     res.redirect(`/profile/${req.user._id}`)
 });
 
-const prepareSearchQuery = (searchQuery) => {
-    if (searchQuery.interests) {
-        searchQuery.interests = {
-            $in: searchQuery.interests
-        } 
-    }
-    else if (searchQuery.skills) {
-        const regexSkills = searchQuery.skills.map( (skill) => {
-            return new RegExp(skill, "gi")
-        })
-        searchQuery.skills = {
-            $in: regexSkills
-        } 
-    }
-    var query = { $or: []}
-    Object.keys(searchQuery).map( key => {
-        var keyObj = {}
-        keyObj[key] = searchQuery[key]
-        query['$or'].push(keyObj)    
-    })
-    return query
-}
-
-app.post('/api/admin/search/users', (req, res) => {
+app.post('/api/users/search', (req, res) => {
     if (auth.isAdmin(req)) {
-        searchQuery = prepareSearchQuery(req.body)
-        db.findAll('user', searchQuery).then(users => {
-            return res.json(users);
-        });
+        return profile.searchall(req, res);
     } else {
         return res.json({ error: 'You do not have permission to access this resource...' });
     }
@@ -129,7 +104,7 @@ app.get('/api/admin/user/exportData', (req, res) => {
         conf.stylesXmlFile = "./lib/styles.xml"
         conf.name = "UserData"
         conf.cols = headers
-        
+
         var values = results.map( result => {
             delete result['passphrase']
             return Object.values(result)
