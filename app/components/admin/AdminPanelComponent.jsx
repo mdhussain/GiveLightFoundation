@@ -115,6 +115,7 @@ class AdminPanelComponent extends React.Component {
 
         if (Object.keys(searchQuery).length != 0) {
             searchVolunteers(searchQuery).then( response => {
+                console.log('what response in component: ', response)
                 if (response.result.length > 0) {
                     this.setState({
                         ...this.state,
