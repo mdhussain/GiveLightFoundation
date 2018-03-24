@@ -15,7 +15,8 @@ const cookieParser = require('cookie-parser')
 const app = express()
 const db = require('./lib/db')
 const auth = require('./lib/auth')
-const mailer = require('./lib/mailer')
+//const mailer = require('./lib/mailer')
+const email = require('./lib/email')
 const profile = require('./lib/profile')
 
 const port = parseInt(process.env.PORT, 10) || 3000
@@ -133,6 +134,7 @@ app.post('/api/user', (req, res) => {
     newUser.approvedBy = ''
     db.insertOne('user', newUser).then(result => {
         var userRecord = req.body
+        console.log('inserted user: ', userRecord)
         userRecord.recordType = 'New User'
         email.notifyAdmin(userRecord)
         return res.json(result)

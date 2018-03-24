@@ -57,6 +57,15 @@ class AdminPanelComponent extends React.Component {
         })
     }
 
+    handleField = (fieldName, event) => {
+        event.preventDefault()
+        let searchQuery = {
+            ...this.state.searchQuery,
+            [fieldName]: event.target.value
+        }
+        this.searchVolunteersHandler(searchQuery)
+    }
+
     handleSkillsInput = (event) => {
         event.preventDefault()
         let searchQuery = {
