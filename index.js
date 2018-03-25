@@ -15,9 +15,12 @@ const cookieParser = require('cookie-parser')
 const app = express()
 const db = require('./lib/db')
 const auth = require('./lib/auth')
-//const mailer = require('./lib/mailer')
+
+
 const email = require('./lib/email')
 const profile = require('./lib/profile')
+const sms = require('./app/api/sms')
+
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const publicDir = __dirname + '/app'
@@ -181,9 +184,18 @@ app.put('/api/user', (req, res) => {
     }
 })
 
+
 app.post('/api/users/email', (req, res) => {
     if (auth.isAdmin(req)) {
         return email.sendEmail(req, res);
+    } else {
+        return res.json({ error: 'You do not have permission to access this resource...' });
+    }
+});
+
+app.post('/api/users/sms', (req, res) => {
+    if (auth.isAdmin(req)) {
+        return sms.sendSms(req, res);
     } else {
         return res.json({ error: 'You do not have permission to access this resource...' });
     }
