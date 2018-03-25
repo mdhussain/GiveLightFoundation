@@ -132,11 +132,11 @@ app.post('/api/user', (req, res) => {
     ])
     newUser.isAdmin = false
     newUser.approvedBy = ''
+    
     db.insertOne('user', newUser).then(result => {
-        var userRecord = req.body
-        console.log('inserted user: ', userRecord)
-        userRecord.recordType = 'New User'
-        email.notifyAdmin(userRecord)
+        email.notifyAdmin(newUser)
+        email.notifyUser(newUser)
+        
         return res.json(result)
     }).catch(error => {
         console.log(error)
@@ -170,6 +170,7 @@ app.put('/api/user', (req, res) => {
             var userRecord = req.body;
             userRecord.recordType = 'User Profile Update'
             email.notifyAdmin(userRecord);
+            email.notifyUser(userRecord);
             return res.json(result);
         }).catch(error => {
             console.log(error)

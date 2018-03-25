@@ -54,6 +54,7 @@
     "json-loader": "^0.5.7",
     "json2xls": "^0.1.2",
     "lodash": "^4.17.5",
+    "mailgun-js": "^0.16.0",
     "material-ui": "^0.19.4",
     "method-override": "^2.x",
     "mongodb": "^2.2.35",
