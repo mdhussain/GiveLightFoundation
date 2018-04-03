@@ -42,6 +42,7 @@ app.post('/api/login', (req, res, next) => {
             return res.status(422).json(err)
         }
         req.login(user, () => {
+            console.log('login user')
             return res.json(user)
         })
     })(req, res, next)

@@ -29,6 +29,7 @@ class AdminPanelComponent extends React.Component {
     }
     componentDidMount() {
         getAllUsers().then( response => {
+            console.log('gootten users: ', response)
             this.setState({
                 filteredVolunteers: response,
             })
