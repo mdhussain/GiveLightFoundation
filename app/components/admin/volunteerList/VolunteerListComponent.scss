@@ -1,0 +1,27 @@
+.listContainer {
+
+    .volunteerListActionsContainer {
+
+        .groupNotificuationSelectionContainer {
+            text-align: left;
+            padding-right: 10px;
+
+            .actionItem {
+                display: inline-block;
+            }
+
+        }
+
+        .messageDetailsContainer {
+            width: 60%;
+            height: 80px;
+        }
+    }
+    .volunteerListContainer {
+        
+        height: 400px;
+        text-align: center;
+        display: inline-block;
+        overflow-y: scroll;
+    }
+}

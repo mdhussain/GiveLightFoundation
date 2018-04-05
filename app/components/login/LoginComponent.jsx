@@ -92,7 +92,7 @@ class LoginComponent extends React.Component {
         return (
             <Paper zDepth={1} className="paperStyle">
                 <GiveLightLogoComponent />
-                <form onSubmit={this.onSubmit} className="LoginForm">
+                <form className="LoginForm">
                 <button
                         onClick={this.loginWithFacebook}
                         className="uibutton"

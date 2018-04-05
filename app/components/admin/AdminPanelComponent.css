@@ -11,10 +11,8 @@
 
 .filterResultsContainer {
     display: inline-block;
-    height: 400px;
     width: 560px;
     margin: 10px;
-    overflow-y: scroll;
 }
 
 .loadingScreenContainer {

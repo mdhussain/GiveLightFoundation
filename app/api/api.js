@@ -87,11 +87,26 @@ const makeAdmin = (volunteerEmail) => {
     }) 
     
 }
+const groupEmailNotify = (volunteers, type, message) => {
+    return new Promise((resolve, reject) => {
 
+        const data = {
+            volunteers: volunteers,
+            type: type,
+            message: message
+        }
+        return makeRequest(data, 'POST', '/api/admin/groupNotification').then(response => {
+            return resolve(response.json())
+        }).catch(error => {
+            window.alert('Error makeing  user admin', error)
+            console.log(error)
+            return reject(error)
+        })
+    })
+}
 const searchVolunteers = (searchQuery) => {
     return new Promise((resolve, reject) => {
         return makeRequest(searchQuery, 'POST', '/api/admin/search/users').then(response => {
-            console.log("herrrrre: ", response)
             return resolve(response.json())
         }).catch(error => {
             window.alert('Error retrieving user')
@@ -139,4 +154,5 @@ export {
     makeAdmin,
     getAllUsers,
     searchVolunteers,
+    groupEmailNotify,
 }

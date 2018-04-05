@@ -4,7 +4,8 @@ import CallIcon from 'material-ui/svg-icons/communication/call'
 import Checkbox from 'material-ui/Checkbox'
 
 import VolunteerDisplayComponent from '../volunteerDisplay/VolunteerDisplayComponent'
-require('./VolunteerListComponent.css');
+import { groupEmailNotify } from '../../../api/api'
+require('./VolunteerListComponent.scss');
 
 class VolunteerListComponent extends React.Component {
     constructor (props) {
@@ -12,7 +13,8 @@ class VolunteerListComponent extends React.Component {
         this.props = props
         this.state = {
             volunteers: [],
-            allSelected: false
+            allSelected: false,
+            groupMessage: ''
         }
         this.state.volunteers = this.props.allVolunteers.map( (volunteer, index) => {
             volunteer.selected = false
@@ -21,6 +23,12 @@ class VolunteerListComponent extends React.Component {
         })
     }
 
+    handleGroupMessage = (event) => {
+        this.setState({
+            ...this.state,
+            groupMessage: event.target.value
+        })
+    }
     handleChecked = (event, volunteerIndex) => {
         let allVolunteers = this.state.volunteers
         allVolunteers[volunteerIndex].selected = !allVolunteers[volunteerIndex].selected
@@ -31,7 +39,6 @@ class VolunteerListComponent extends React.Component {
     }
 
     handleAllChecked = (event) => {
-        console.log('all checked', event.target.value)
         const allSelected = !this.state.allSelected
         let allVolunteers = this.state.volunteers.map( volunteer => {
             volunteer.selected = allSelected 
@@ -45,17 +52,37 @@ class VolunteerListComponent extends React.Component {
         })
     }
 
+    handleGroupNotification = (event, notificationType) => {
+        const volunteersToEmail = this.state.volunteers.filter( volunteer => {
+            return volunteer.selected
+        })
+        if (this.state.groupMessage.length !== 0) {
+            groupEmailNotify(volunteersToEmail, notificationType, this.state.groupMessage)
+        }
+        console.log('volunteers to email: ', volunteersToEmail)
+        
+    }
+
     groupSelectionContainer = () => {
         return (
-            <div>
-                <Checkbox
-                    checked={this.state.allSelected}
-                    onCheck={this.handleAllChecked}
-                />
-                |
-                <EmailIcon />
-                |
-                <CallIcon />
+            <div className="volunteerListActionsContainer">
+                <div className="groupNotificuationSelectionContainer">
+                    <div className="actionItem">
+                        <Checkbox
+                            checked={this.state.allSelected}
+                            onCheck={this.handleAllChecked}
+                        />
+                    </div>
+                    <div className="actionItem">
+                        <EmailIcon onClick={(event) => this.handleGroupNotification(event, 'email')} />
+                    </div>
+                    <div className="actionItem">
+                        <CallIcon onClick={(event) => this.handleGroupNotification(event, 'sms')} />
+                    </div>
+                </div>
+                <div className="messageDetailsContainer">
+                    <textarea rows="6" cols="60" onChange={this.handleGroupMessage}></textarea>
+                </div>
 
             </div>
         )
@@ -65,7 +92,7 @@ class VolunteerListComponent extends React.Component {
     render () {
         if (this.props.allVolunteers) {
             return (
-                <div>
+                <div className="listContainer">
                     {this.groupSelectionContainer()}
                     <div className="volunteerListContainer">
                         {
