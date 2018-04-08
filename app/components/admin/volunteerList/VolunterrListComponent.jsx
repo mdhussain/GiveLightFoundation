@@ -14,7 +14,8 @@ class VolunteerListComponent extends React.Component {
         this.state = {
             volunteers: [],
             allSelected: false,
-            groupMessage: ''
+            groupMessage: '',
+            showGroupMessage: false,
         }
         this.state.volunteers = this.props.allVolunteers.map( (volunteer, index) => {
             volunteer.selected = false
@@ -48,19 +49,24 @@ class VolunteerListComponent extends React.Component {
         this.setState({
             ...this.state,
             allSelected: allSelected,
+            showGroupMessage: false,
             volunteers: allVolunteers
         })
     }
 
+    toggleGroupMessageBox = () => {
+        this.setState({
+            ...this.state,
+            showGroupMessage: !this.state.showGroupMessage
+        })
+    }
     handleGroupNotification = (event, notificationType) => {
         const volunteersToEmail = this.state.volunteers.filter( volunteer => {
             return volunteer.selected
         })
-        if (this.state.groupMessage.length !== 0) {
+        if (this.state.groupMessage.length !== 0 && volunteersToEmail.length > 0) {
             groupEmailNotify(volunteersToEmail, notificationType, this.state.groupMessage)
         }
-        console.log('volunteers to email: ', volunteersToEmail)
-        
     }
 
     groupSelectionContainer = () => {

@@ -17,12 +17,12 @@ class VolunteerDisplayComponent extends React.Component {
     render () {
         return (
             <div className="volunteerDisplayContainer">
-                <div className="volunteerCheckbox">
+                <aside className="volunteerCheckbox">
                     <Checkbox
                         checked={this.props.volunteerData.selected}
                         onCheck={(e) => this.props.handleChecked(e, this.props.volunteerData.index)}
                     />
-                </div>
+                </aside>
                 <div className="volunteerDetailsContainer">
                     <div className="volunteerContactInformation">
                         <table>
