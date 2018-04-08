@@ -87,7 +87,7 @@ class VolunteerListComponent extends React.Component {
                     </div>
                 </div>
                 <div className="messageDetailsContainer">
-                    <textarea rows="6" cols="60" onChange={this.handleGroupMessage}></textarea>
+                    <textarea rows="4" cols="60" onChange={this.handleGroupMessage}></textarea>
                 </div>
 
             </div>
