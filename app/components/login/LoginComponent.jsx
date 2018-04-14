@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import GiveLightLogoComponent from '../commonComponents/GiveLightLogoComponent'
 import { loginUser } from '../../api/api'
 import FontAwesome from 'react-fontawesome';
-var ReactDOM = require('react-dom');
+import { render as _render } from "react-dom";
 
 import {
     BrowserRouter as Router,
@@ -15,17 +15,17 @@ import {
     Link
 } from 'react-router-dom'
 
-require('./LoginComponent.css')
-require('../sharedCss.css')
-require('../facebook/FacebookButton.css')
-
+import "./LoginComponent.css";
+import "../sharedCss.css";
+import "../facebook/FacebookButton.css";
 
 class LoginComponent extends React.Component {
     state = {
         email: '',
         passphrase: '',
         facebookLogin: false,
-        goToProfile: false
+        goToProfile: false,
+        errors: false
     }
 
     handleField = (event, fieldName) => {
@@ -63,18 +63,24 @@ class LoginComponent extends React.Component {
             }
             else {
                 console.log('Error in login', error)
-                this.handleLoginError();
+                this.setLoginError();
             }
         }).catch( (error) => {
             console.log('Error in login', error)
-            this.handleLoginError();
+            this.setLoginError();
         })
     }
 
-    handleLoginError = () => {
-        const errorText = <span>Invalid Username/Password, please try again</span>
-        ReactDOM.render(errorText, document.getElementById('login-error'));
-        document.getElementById('login-error').style.display = 'block';
+    setLoginError = () => {
+        this.setState({
+            error: true
+        });
+    }
+
+    renderError = () => {
+        if (this.state.error) {
+            return <div className="login-error">Invalid Username/Password, please try again</div>;
+        }
     }
 
     goBacktoGiveLightMain = (event) => {
@@ -96,8 +102,8 @@ class LoginComponent extends React.Component {
             )
         }
         return (
-            <Paper zDepth={1} className="paper-style">
-                <div className="login-box p-l-110 p-r-110 p-t-22 p-b-33">
+            <Paper className="paper-style">
+                <div className="login-panel-box p-l-110 p-r-110 p-t-22 p-b-33">
                     <form className="flex-sb flex-w">
                         <span className="login-form-title p-b-23">Sign in with</span>
                         <div className="w-full div-separator div-block">
@@ -107,7 +113,7 @@ class LoginComponent extends React.Component {
                                 </a>
                             </div>
                         </div>
-                        <div id="login-error" className="login-error"/>
+                        {this.renderError()}
                         <div className="p-t-31 p-b-9">
                             <span className="login-label">Username</span>
                         </div>

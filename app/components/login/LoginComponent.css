@@ -37,7 +37,7 @@
 }
 
 
-.login-box {
+.login-panel-box {
     width: 680px;
     background: #fff;
     border-radius: 10px;
@@ -47,14 +47,13 @@
     border-color: lightgrey;
     box-sizing: border-box;
     position: absolute;
-    width: 680px;
     height: 600;
-    z-index: 15;
     top: 15%;
     left: 40%;
     margin: -10px 0 0 -200px;
     background: #FAFAFA;
 }
+
 .div-center {
     display: inline-block;
 }
@@ -250,5 +249,4 @@
     border: 1px solid transparent;
     border-radius: 4px;
     width: 100%;
-    display: none;
 }
