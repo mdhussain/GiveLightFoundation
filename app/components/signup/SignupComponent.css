@@ -3,7 +3,7 @@
     display: inline-block;
     width: 50%;
     vertical-align: top;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .skillsInputStyle {
@@ -25,5 +25,110 @@
 }
 
 .countryRegionContainer {
-    margin: 10px;
+    padding-top: 10px;
+}
+
+.sign-up-panel-box {
+    width: 800px;
+    background: #fff;
+    border-radius: 10px;
+    position: relative;
+    border-style: solid;
+    border-width: thin;
+    border-color: lightgrey;
+    box-sizing: border-box;
+    overflow: hidden;
+    top: 15%;
+    left: 40%;
+    margin: 10px 0 0 -200px;
+    background: #FAFAFA;
+}
+
+
+.sign-up-fa-btn-face {
+    color: #fff;
+    background-color: #3b5998;
+    font-size: 18px;
+    line-height: 1.2;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sign-up-fa-btn-face span {
+    font-size: 30px;
+    margin-right: 17px;
+    padding-bottom: 3px;
+}
+
+.p-l-30 {
+    padding-left: 30px;
+}
+
+.p-r-30 {
+    padding-right: 30px;
+}
+
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.p-t-10 {
+    padding-top: 10px;
+}
+
+.sign-up-panel-sign-up-btn {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 30%;
+    height: 40px;
+    background-color: #e0b300;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    cursor:pointer;
+    font-weight: bold;
+    left: 30%;
+}
+
+.sign-up-panel-sign-up-btn-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-up-panel-fb-btn-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-up-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    margin-top: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    width: 100%;
 }
