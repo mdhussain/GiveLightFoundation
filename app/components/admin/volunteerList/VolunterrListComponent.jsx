@@ -24,6 +24,19 @@ class VolunteerListComponent extends React.Component {
         })
     }
 
+    componentWillReceiveProps = (newProps) => {
+        this.props = newProps
+        const volunteers = this.props.allVolunteers.map( (volunteer, index) => {
+            volunteer.selected = false
+            volunteer.index = index
+            return volunteer
+        })
+        this.setState({
+            ...this.state,
+            volunteers: volunteers
+        })
+    }
+
     handleGroupMessage = (event) => {
         this.setState({
             ...this.state,

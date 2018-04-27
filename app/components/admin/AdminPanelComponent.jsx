@@ -27,9 +27,10 @@ class AdminPanelComponent extends React.Component {
             },
         }
     }
-    componentDidMount() {
+    componentWillMount() {
         getAllUsers().then( response => {
             this.setState({
+                ...this.state,
                 filteredVolunteers: response,
             })
         }).catch( error => {
@@ -121,10 +122,8 @@ class AdminPanelComponent extends React.Component {
     searchVolunteersHandler = (searchQuery) => {
         let cacheSkillsInput =  searchQuery['skillsInput']
         delete searchQuery['skillsInput']
-
         if (Object.keys(searchQuery).length != 0) {
             searchVolunteers(searchQuery).then( response => {
-                console.log('what response in component: ', response)
                 if (response.result.length > 0) {
                     this.setState({
                         ...this.state,
@@ -180,15 +179,14 @@ class AdminPanelComponent extends React.Component {
     }
 
     handleMakeAdmin = (event) => {
-        console.log('handleing',event.target.value)
+        event.preventDefault()
         this.setState({
             ...this.state,
             makeAdminField: event.target.value,
         })
     }
-    submitMakeAdmin = () => {
+    submitMakeAdmin = (event) => {
         event.preventDefault()
-        console.log('submitting',this.state.makeAdminField)
         let emailInvalidMsg = validateEmail(this.state.makeAdminField, '')
             if (emailInvalidMsg == '') {
             let data = {
