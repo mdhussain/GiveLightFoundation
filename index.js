@@ -67,7 +67,6 @@ app.post('/api/admin/groupNotification', (req, res) => {
         var reqBody = _.pick(req.body, [
             'volunteers', 'type', 'message'
         ])
-        console.log(reqBody)
         if (reqBody.type === 'email') {
             reqBody.volunteers.map( volunteer => {
                 const message = reqBody.message
@@ -130,32 +129,6 @@ app.get('/api/admin/users', (req, res) => {
     }
 })
 
-// app.get('/api/admin/user/exportData', (req, res) => {
-//     db.getAll('user').then((results) => {
-//         var headers = Object.keys(results[0])
-//         var conf = {}
-//         conf.stylesXmlFile = "./lib/styles.xml"
-//         conf.name = "UserData"
-//         conf.cols = headers
-
-//         var values = results.map(result => {
-//             delete result['passphrase']
-//             return Object.values(result)
-//         })
-//         console.log(values)
-//         var sheet = nodeExcel.execute(conf)
-//         fs.writeFileSync('./lib/volunteers.xlsx', sheet, 'binary')
-
-//         //res.setHeader('Content-Type', 'application/vnd.openxmlformats')
-//         //res.setHeader("Content-Disposition", "attachment; filename=" + "UserData.xlsx")
-//         const file = './lib/volunteers.xlsx'
-//         const filename = 'volunteers.xlsx'
-//         return res.download(file, filename)
-//     }).catch((error) => {
-//         console.log(error)
-//         return reject(error)
-//     })
-// });
 app.post('/api/user', (req, res) => {
     // It is good practice to specifically pick the fields we want to insert here *in the backend*,
     // even if we have already done so on the front end. This is to prevent malicious users
