@@ -1,0 +1,215 @@
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+.m-t-17 {
+    margin-top: 17px;
+}
+
+.m-t-27 {
+    margin-top: 27px;
+}
+
+.m-l-25-percent {
+    margin-left: 25%;
+}
+
+.p-b-9 {
+    padding-bottom: 9px;
+}
+.p-t-13 {
+    padding-top: 13px;
+}
+
+.p-t-31 {
+    padding-top: 31px;
+}
+
+.p-b-23 {
+    padding-bottom: 23px;
+}
+
+.p-r-110 {
+    padding-right: 110px;
+}
+.p-r-5 {
+    padding-right: 5px;
+}
+
+.p-l-5 {
+    padding-left: 5px;
+}
+
+.p-l-110 {
+    padding-left: 110px;
+}
+
+.p-b-33 {
+    padding-bottom: 33px;
+}
+.p-t-22 {
+    padding-top: 22px;
+}
+
+.p-t-55 {
+    padding-top: 55px;
+}
+
+.p-l-30 {
+    padding-left: 30px;
+}
+
+.p-l-50 {
+    padding-left: 50px;
+}
+
+.p-r-30 {
+    padding-right: 30px;
+}
+
+.p-r-50 {
+    padding-right: 50px;
+}
+
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.m-b-35 {
+    margin-bottom: 35px;
+}
+
+.p-t-10 {
+    padding-top: 10px;
+}
+
+
+.div-block {
+    display: block;
+}
+
+.div-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paper-style {
+    margin: 20px;
+    background-color: #F3F2F0;
+    text-align: center;
+}
+
+.flex-sb {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-w {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.txt-input {
+    color: #333333;
+    line-height: 1.2;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    background: transparent;
+    height: 60px;
+    padding: 0 20px;
+    border: none;
+    outline: none;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+}
+
+.btn-container {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    padding: 0 20px;
+    background-color: #333333;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    position: relative;
+    z-index: 1;
+    cursor:pointer;
+    font-weight: bold;
+}
+
+.btn-form {
+    background-color: #e0b300;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center!important;
+}
+
+
+.error-panel {
+    color: #7f5050;
+    border-color: #dfd0d0;
+    background-color: #fff0f0;
+    margin-top: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.success-panel {
+    color: #507f50;
+    border-color: #d0dfd0;
+    background-color: #f0fff0;
+    margin-top: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.dialog-title {
+    background-color: darkgray;
+}
+
+.dialog-body {
+    width: auto;
+}

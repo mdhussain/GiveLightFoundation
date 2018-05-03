@@ -1,0 +1,37 @@
+.search-panel-box {
+    border-radius: 10px;
+    border-style: solid;
+    border-width: thin;
+    border-color: lightgrey;
+    box-sizing: border-box;
+    background: #FAFAFA;
+    margin: 10px;
+    top: 10px;
+    width: 98%;
+    display: inline-block;
+}
+
+
+.search-loading-status {
+    display: block;
+}
+
+.wrap-search-txt {
+    width: 80%;
+}
+
+.search-btn-container {
+    width: 10%;
+}
+
+.m-t-27 {
+    margin-top: 27px;
+}
+
+.wrap-country-txt {
+    width: auto
+}
+
+.wrap-region-txt {
+    width: auto
+}

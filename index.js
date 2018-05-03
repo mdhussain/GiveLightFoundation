@@ -30,7 +30,7 @@ app.use(cookieParser())
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }))
 auth.init(app)
 
-app.get(['/', '/signup', '/login', '/profile/:id'], (req, res) => {
+app.get(['/', '/signup', '/login', '/profile/:id', '/search'], (req, res) => {
     res.sendFile(path.join(publicDir, '/index.html'))
 })
 
@@ -54,11 +54,12 @@ app.get('/api/auth/facebook', passport.authenticate('facebook'));
 app.get('/api/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
     res.redirect(`/profile/${req.user._id}`)
 });
-app.post('/api/admin/search/users', (req, res) => {
+
+app.post('/api/users/search', (req, res) => {
     if (auth.isAdmin(req)) {
         return profile.searchall(req, res);
     } else {
-        return res.json({ error: 'You do not have permission to access this resource...' });
+        return res.status(403).json({ error: 'You do not have permission to access this resource...' });
     }
 });
 
@@ -96,7 +97,7 @@ app.get('/api/users', (req, res) => {
             return res.json({ users })
         })
     } else {
-        return res.json({ error: 'You do not have permission to access this resource.' })
+        return res.status(403).json({ error: 'You do not have permission to access this resource.' })
     }
 })
 
@@ -125,7 +126,7 @@ app.get('/api/admin/users', (req, res) => {
         })
     }
     else {
-        return res.json({ error: 'You do not have permission to access this resource.....' })
+        return res.status(403).json({ error: 'You do not have permission to access this resource.....' })
     }
 })
 
@@ -167,7 +168,7 @@ app.post('/api/admin/user/makeAdmin', (req, res) => {
         })
     }
     else {
-        return res.json({ error: 'You do not have permission to access this resource.....' })
+        return res.status(403).json({ error: 'You do not have permission to access this resource.....' })
     }
 })
 
@@ -183,7 +184,7 @@ app.put('/api/user', (req, res) => {
             return res.json(error)
         })
     } else {
-        return res.json({ error: 'Not authenticated' })
+        return res.status(403).json({ error: 'Not authenticated' })
     }
 })
 
@@ -192,7 +193,7 @@ app.post('/api/users/email', (req, res) => {
     if (auth.isAdmin(req)) {
         return email.sendEmail(req, res);
     } else {
-        return res.json({ error: 'You do not have permission to access this resource...' });
+        return res.status(403).json({ error: 'You do not have permission to access this resource...' });
     }
 });
 
@@ -200,7 +201,7 @@ app.post('/api/users/sms', (req, res) => {
     if (auth.isAdmin(req)) {
         return sms.sendSms(req, res);
     } else {
-        return res.json({ error: 'You do not have permission to access this resource...' });
+        return res.status(403).json({ error: 'You do not have permission to access this resource...' });
     }
 });
 

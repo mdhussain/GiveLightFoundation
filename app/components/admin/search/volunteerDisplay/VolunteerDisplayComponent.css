@@ -1,0 +1,44 @@
+.volunteerDisplayContainer {
+    width: 100%;
+    display: inline-flex;
+    margin-bottom: 10px;
+    padding: 0px 0px 10px 20px;
+    border-bottom: thin dotted lightgrey;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.volunteerCheckbox {
+    float: left;
+}
+
+.volunteerIcon {
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    width: 100px;
+    height: 100px;
+}
+
+.volunteerInfo {
+    margin-left: 20px;
+}
+
+.volunteerName {
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+.volunteerData {
+    font-size: 0.75em;
+    display: flex;
+}
+
+.volunteerInfoSVGIcons {
+    transform: scale(0.7);
+}
+
+.centerAlign {
+    display: flex;
+    align-items: center;
+}

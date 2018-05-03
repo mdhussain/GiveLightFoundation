@@ -1,0 +1,37 @@
+.volunteer-list-container {
+    width: 100%;
+}
+
+.volunteer-list {
+    width: 75%;
+    margin-top: 0px;
+    display: inline-block;
+    border-style: solid;
+    border-width: thin;
+    border-color: lightgrey;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.volunteer-stats {
+    width: 24%;
+    float: right;
+    margin-top: 0px;
+}
+
+.select-all-checkbox {
+    width: auto;
+}
+
+.volunteer-actions-container {
+    padding: 10px 0px 10px 20px;
+    background: darkgray;
+    border-radius: 8px 8px 0px 0px;
+    margin-bottom: 5px;
+    display: flex;
+}
+
+.right-actions {
+    margin-left: auto;
+    margin-right: 20px;
+}

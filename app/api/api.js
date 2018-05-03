@@ -21,7 +21,6 @@ const makeRequest = (uploadData = {}, method, path, headers = DefaultHeaders) =>
     }
 }
 
-
 const loginUser = (userCreds) => {
     return makeRequest(userCreds, 'POST', '/api/login').then(response => {
         return response.json()
@@ -61,7 +60,7 @@ const getUser = (id) => {
             console.log(error)
             return reject(error)
         })
-    }) 
+    })
 }
 const getAllUsers = (id) => {
     return new Promise((resolve, reject) => {
@@ -72,7 +71,7 @@ const getAllUsers = (id) => {
             console.log(error)
             return reject(error)
         })
-    }) 
+    })
 }
 
 const makeAdmin = (volunteerEmail) => {
@@ -84,21 +83,35 @@ const makeAdmin = (volunteerEmail) => {
             console.log(error)
             return reject(error)
         })
-    }) 
-    
+    })
+
 }
-const groupEmailNotify = (volunteers, type, message) => {
+const emailVolunteers = (volunteers, subject, message) => {
     return new Promise((resolve, reject) => {
 
         const data = {
-            volunteers: volunteers,
-            type: type,
-            message: message
+            to: volunteers,
+            subject: subject,
+            contents: message
         }
-        return makeRequest(data, 'POST', '/api/admin/groupNotification').then(response => {
+        return makeRequest(data, 'POST', '/api/users/email').then(response => {
             return resolve(response.json())
         }).catch(error => {
-            window.alert('Error makeing  user admin', error)
+            console.log(error)
+            return reject(error)
+        })
+    })
+}
+const smsVolunteers = (volunteers, text) => {
+    return new Promise((resolve, reject) => {
+
+        const data = {
+            to_phone: volunteers,
+            text: text,
+        }
+        return makeRequest(data, 'POST', '/api/users/sms').then(response => {
+            return resolve(response.json())
+        }).catch(error => {
             console.log(error)
             return reject(error)
         })
@@ -106,24 +119,23 @@ const groupEmailNotify = (volunteers, type, message) => {
 }
 const searchVolunteers = (searchQuery) => {
     return new Promise((resolve, reject) => {
-        return makeRequest(searchQuery, 'POST', '/api/admin/search/users').then(response => {
+        return makeRequest(searchQuery, 'POST', '/api/users/search').then(response => {
             return resolve(response.json())
         }).catch(error => {
-            window.alert('Error retrieving user')
             console.log(error)
             return reject(error)
         })
-    }) 
+    })
 
 }
 
-const exportUserData  = () => {
+const exportUserData = () => {
     const headers = {
         'Content-Type': 'application/vnd.openxmlformats',
         'Content-Disposition': 'attachment; filename=UserData.xlsx'
     }
     return makeRequest({}, 'GET', '/api/admin/user/exportData', headers)
-} 
+}
 
 const cleanupData = (uploadData) => {
     delete uploadData.checkboxInterests
@@ -154,5 +166,6 @@ export {
     makeAdmin,
     getAllUsers,
     searchVolunteers,
-    groupEmailNotify,
+    emailVolunteers,
+    smsVolunteers,
 }

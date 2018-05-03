@@ -102,40 +102,31 @@ class LoginComponent extends React.Component {
             )
         }
         return (
-            <Paper className="paper-style">
+            <Paper>
                 <div className="login-panel-box p-l-110 p-r-110 p-t-22 p-b-33">
                     <form className="flex-sb flex-w">
                         <span className="login-form-title p-b-23">Sign in with</span>
-                        <div className="w-full div-separator div-block">
-                            <div className="div-center">
-                                <a href="#" onClick={this.loginWithFacebook} className="fa-btn-face m-b-20">
-                                    <FontAwesome name="facebook-official"/>Facebook
-                                </a>
-                            </div>
+                        <div className="w-full div-separator div-center">
+                            <a href="#" onClick={this.loginWithFacebook} className="fa-btn-face m-b-20">
+                                <FontAwesome name="facebook-official"/>Facebook
+                            </a>
                         </div>
                         {this.renderError()}
                         <div className="p-t-31 p-b-9">
                             <span className="login-label">Username</span>
                         </div>
-                        <div className="wrap-input">
-                            <input className="login-input" type="text" name="email" value={this.state.email} onChange={e => this.handleField(e, 'email')}/>
-                        </div>
-
+                        <input className="txt-input" type="text" name="email" value={this.state.email} onChange={e => this.handleField(e, 'email')}/>
+                        
                         <div className="p-t-13 p-b-9">
                             <span className="login-label">Password</span>
-                            {/* <a href="#" className="txt2 bo1 m-l-5">
-                                Forgot?
-                            </a> */}
                         </div>
-                        <div className="wrap-input">
-                            <input className="login-input" type="password" name="passphrase" onChange={e => this.handleField(e, 'passphrase')}/>
-                        </div>
-
-                        <div className="login-sign-in-btn-container m-t-17">
-                            <button onClick={e => this.handleSubmit(e)} className="sign-in-btn">Sign In</button>
+                        <input className="txt-input" type="password" name="passphrase" onChange={e => this.handleField(e, 'passphrase')}/>
+                       
+                        <div className="btn-container m-t-17 div-center">
+                            <button onClick={e => this.handleSubmit(e)} className="btn login-btn">Sign In</button>
                         </div>
 
-                        <div className="w-full text-center p-t-55">
+                        <div className="w-full text-center">
                             <span className="login-txt2 p-r-5">Not a member?</span>
                             <Link className="login-sign-up login-txt2 bo1" to="/signup">Sign up now</Link>
                         </div>

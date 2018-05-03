@@ -72,63 +72,7 @@
     padding-bottom: 3px;
 }
 
-.p-l-30 {
-    padding-left: 30px;
-}
-
-.p-r-30 {
-    padding-right: 30px;
-}
-
-.m-b-10 {
-    margin-bottom: 10px;
-}
-
-.p-t-10 {
-    padding-top: 10px;
-}
-
 .sign-up-panel-sign-up-btn {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
     width: 30%;
-    height: 40px;
-    background-color: #e0b300;
-    border-radius: 10px;
-    font-size: 16px;
-    color: #fff;
-    line-height: 1.2;
-    cursor:pointer;
-    font-weight: bold;
-    left: 30%;
-}
-
-.sign-up-panel-sign-up-btn-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sign-up-panel-fb-btn-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sign-up-error {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-    margin-top: 5px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    width: 100%;
+    margin-top: 10px;
 }

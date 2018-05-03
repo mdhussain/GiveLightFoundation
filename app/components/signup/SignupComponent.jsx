@@ -40,7 +40,14 @@ class SignupComponent extends React.Component {
             retypePassphrase: '',
             isAdmin: false,
             checkboxInterests: checkInter,
-            errors: []
+            errors: {
+                name: '',
+                email: '',
+                passphrase: '',
+                retypePassphrase: '',
+                country: '',
+                region: '',
+            }
         }
     }
     handleField = (fieldName, event) => {
@@ -107,27 +114,27 @@ class SignupComponent extends React.Component {
         })
     }
     validateState = () => {
-        let errors = [];
+        let errors = {};
         if (this.state.name.length == 0) {
-            errors.push('Please enter a valid name.');
+            errors.name = 'Please enter your name.';
         }
         if (!isValidEmail(this.state.email)) {
-            errors.push('Please enter a valid email.');
+            errors.email = 'Please enter a valid email.';
         }
         if (!this.state.passphrase) {
-            errors.push('Please enter a passphrase.');
+            errors.passphrase = 'Please enter a passphrase.'
         }
         if (!this.state.retypePassphrase) {
-            errors.push('Please retype the passphrase.');
+            errors.retypePassphrase = 'Please retype your passphrase.'
         }
         if (this.state.passphrase !== this.state.retypePassphrase) {
-            errors.push('Passphrases do not match.');
+            errors.passphrase = 'Passphrases do not match.'
         }
         if (!this.state.country) {
-            errors.push('Please select a country.');
+            errors.country = 'Please select a country.'
         }
         if (!this.state.region) {
-            errors.push('Please select a region.');
+            errors.region = 'Please select a region.'
         }
         return errors
     }
@@ -140,41 +147,32 @@ class SignupComponent extends React.Component {
             errors: errors
         });
         
-        if (errors.length == 0) {
+        if (Object.keys(errors).length == 0) {
             registerUser(this.state)
         }
     }
-
-    renderErrors = () => {
-        let errors = this.state.errors;
-        if (errors.length != 0) {
-            const errorList = errors.map((error) => <li>{error}</li>);
-            return <div className="sign-up-error"><ul>{errorList}</ul></div>;
-        }
-    }
-
 
     render () {
         return (
             <Paper>
                 <div className="p-b-33">
                     <div className="sign-up-panel-box p-l-30 p-r-30 p-t-10">
-                        <div className="sign-up-panel-fb-btn-container div-separator">
+                        <div className="div-center div-separator">
                             <a href="#" onClick={this.signupWithFacebook} className="sign-up-fa-btn-face m-b-10">
                                 <FontAwesome name="facebook-official"/>Continue with Facebook
                             </a>
                         </div>
                         <form onSubmit={e => this.onSubmit(e)} className="flex-sb flex-w">
-                            {this.renderErrors()}
                             <div className="section">
-                                <div className="checkBoxStyle"><TextField type="text" name="name" value={this.state.name} floatingLabelText="Name" onChange={(e) => this.handleField('name', e)} /></div>
-                                <div><TextField type="text" name="email" value={this.state.email} floatingLabelText="Email" onChange={(e) => this.handleField('email', e)} /></div>
+                                <div className="checkBoxStyle"><TextField type="text" name="name" value={this.state.name} floatingLabelText="Name" errorText={this.state.errors.name} onChange={(e) => this.handleField('name', e)} /></div>
+                                <div><TextField type="text" name="email" value={this.state.email} floatingLabelText="Email" errorText={this.state.errors.email} onChange={(e) => this.handleField('email', e)} /></div>
                                 <div><TextField type="number" floatingLabelText="Phone" name="phone" onChange={(e) => this.handleField('phone', e)} /></div>
-                                <div><TextField type="password" name="passphrase" value={this.state.passphrase} floatingLabelText="Passphrase" onChange={(e) => this.handleField('passphrase', e)} /></div>
-                                <div><TextField type="password" name="retypePassphrase" value={this.state.retypePassphrase} floatingLabelText="Retype Passphrase" onChange={(e) => this.handleField('retypePassphrase', e)} /></div>
+                                <div><TextField type="password" name="passphrase" value={this.state.passphrase} floatingLabelText="Passphrase" errorText={this.state.errors.passphrase} onChange={(e) => this.handleField('passphrase', e)} /></div>
+                                <div><TextField type="password" name="retypePassphrase" value={this.state.retypePassphrase} floatingLabelText="Retype Passphrase" errorText={this.state.errors.retypePassphrase} onChange={(e) => this.handleField('retypePassphrase', e)} /></div>
                                 <div className="countryRegionContainer">
                                     <CountryDropdown
                                         value={this.state.country}
+                                        errorText={this.state.errors.country}
                                         onChange={this.handleCountry}
                                     />
                                 </div>
@@ -182,6 +180,7 @@ class SignupComponent extends React.Component {
                                     <RegionDropdown
                                         country={this.state.country}
                                         value={this.state.region}
+                                        errorText={this.state.errors.region}
                                         onChange={this.handleRegion}
                                     />
                                 </div>
@@ -191,8 +190,8 @@ class SignupComponent extends React.Component {
                                 <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.checkboxInterests} />
                                 <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={this.state.skillsInput ? this.state.skillsInput : ''} />
                             </div>
-                            <div className="sign-up-panel-sign-up-btn-container m-t-17">
-                                <button onClick={e => this.handleSubmit(e)} className="sign-up-panel-sign-up-btn">Sign Up</button>
+                            <div className="btn-container m-t-17 div-center">
+                                <button onClick={e => this.handleSubmit(e)} className="sign-up-panel-sign-up-btn btn-form btn">Sign Up</button>
                             </div>
                         </form>
                     </div>

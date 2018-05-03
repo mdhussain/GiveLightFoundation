@@ -3,7 +3,7 @@ import { exportUserData, getAllUsers, searchVolunteers, makeAdmin } from '../../
 import { interests } from '../../models/interests'
 import VolunteerInterestsCheckboxesComponent from '../commonComponents/VolunteerInterestsCheckboxesComponent'
 import VolunteerSkillsInputComponent from '../commonComponents/SkillsInputComponent'
-import VolunteerListComponent from './volunteerList/VolunterrListComponent'
+import VolunteerListComponent from './search/volunteerList/VolunteerListComponent'
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector-material-ui'
 import { validateEmail } from '../../../lib/validation.js'
 
