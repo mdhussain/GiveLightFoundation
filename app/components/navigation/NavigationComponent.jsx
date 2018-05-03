@@ -9,6 +9,7 @@ import SignupComponent from '../signup/SignupComponent';
 import LoginComponent from '../login/LoginComponent';
 import ProfileComponent from '../profile/ProfileComponent';
 import SearchVolunteer from '../admin/search/SearchVolunteer';
+import ClientAuth from '../../api/ClientAuth'
 
 require('./NavigationComponent.css');
 
@@ -17,6 +18,11 @@ class NavigationComponent extends React.Component {
     super(props);
   }
 
+  loggedIn = () => {
+    return ClientAuth.isUserAuthenticated();
+  }
+  
+
   render() {
     return (
       <div>
@@ -24,7 +30,7 @@ class NavigationComponent extends React.Component {
             <div>
               <Header />
               <Switch>
-                <Route exact path='/' component={SignupComponent}/>
+                <Route exact path='/' component={LoginComponent}/>
                 <Route path='/signup' component={SignupComponent}/>
                 <Route path='/login' component={LoginComponent}/>
                 <Route path='/profile' component={ProfileComponent}/>

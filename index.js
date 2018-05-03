@@ -30,7 +30,7 @@ app.use(cookieParser())
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }))
 auth.init(app)
 
-app.get(['/', '/signup', '/login', '/profile/:id', '/search'], (req, res) => {
+app.get(['/', '/signup', '/login','/logout', '/profile/:id', '/search'], (req, res) => {
     res.sendFile(path.join(publicDir, '/index.html'))
 })
 
@@ -48,6 +48,11 @@ app.post('/api/login', (req, res, next) => {
     })(req, res, next)
 
 })
+
+app.post('/api/logout', function(req, res){
+    req.logout();
+    res.status(200).json({'logout': "success"});
+});
 
 app.get('/api/auth/facebook', passport.authenticate('facebook'));
 

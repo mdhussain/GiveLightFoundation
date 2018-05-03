@@ -2,12 +2,14 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom'
+import { logoutUser } from '../../api/api'
+import ClientAuth from '../../api/ClientAuth'
 
 require('./Header.css');
 
 const mystyle = {
-    margin: "0px",
-    backgroundColor: "#252525"
+  margin: "0px",
+  backgroundColor: "#0073aa"
 }
 
 export default class Header extends React.Component {
@@ -15,23 +17,27 @@ export default class Header extends React.Component {
     super(props);
   }
 
-  state = {
-  };
+  logout = () => {
+    logoutUser();
+    ClientAuth.deauthenticateUser();
+  }
 
   render() {
-    const rightButtons = (
-      <div>
-        <Link to='/login'><FlatButton label="Login" className="buttonStyle" /></Link>
-        <Link to='/signup'><FlatButton label="Sign Up" className="buttonStyle" /></Link>
-      </div>
-    );
-    return (
-    <AppBar
-      style={mystyle}
-      className="nav-bar"
-      iconElementRight={rightButtons}
-      title=""
-    />
-    );
-  }
+      let rightButtons = (<div />);
+      if (ClientAuth.isUserAuthenticated()) {
+        rightButtons = (
+          <div>
+            <Link className="logout" onClick={this.logout} to="/">Logout</Link>
+          </div>
+        );
+      }
+      return (
+        <AppBar
+          style={mystyle}
+          iconElementLeft={<div />}
+          iconElementRight={rightButtons}
+          title={<img className="logo" />}
+        />
+      );
+    }
 }

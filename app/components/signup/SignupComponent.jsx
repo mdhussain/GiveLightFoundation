@@ -16,7 +16,7 @@ import { registerUser, signupFacebook } from '../../api/api'
 import { interests } from '../../models/interests'
 import FontAwesome from 'react-fontawesome';
 import { render as _render } from "react-dom";
-
+import { Link }  from 'react-router-dom';
 
 require('../sharedCss.css')
 require('./SignupComponent.css')
@@ -190,8 +190,12 @@ class SignupComponent extends React.Component {
                                 <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.checkboxInterests} />
                                 <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={this.state.skillsInput ? this.state.skillsInput : ''} />
                             </div>
-                            <div className="btn-container m-t-17 div-center">
+                            <div className="btn-container m-t-10 div-center">
                                 <button onClick={e => this.handleSubmit(e)} className="sign-up-panel-sign-up-btn btn-form btn">Sign Up</button>
+                            </div>
+                            <div className="w-full text-center">
+                                <span className="login-txt2 p-r-5">Already a volunteer?</span>
+                                <Link className="login-sign-up login-txt2 bo1" to="/login">Sign in</Link>
                             </div>
                         </form>
                     </div>
