@@ -191,7 +191,25 @@ app.put('/api/user', (req, res) => {
 
 app.post('/api/users/email', (req, res) => {
     if (auth.isAdmin(req)) {
-        return email.sendEmail(req, res);
+        const toPpl = req.body.to
+        var users = []
+        console.log(req.body)
+        toPpl.map(email => {
+            db.getByEmail('user', email).then(user => {
+                
+                users.push(user)
+            })
+        })
+        const subject = req.body.subject
+        const message = req.body.contents
+        console.log(users)
+
+        users.map(user => {
+            email.notifyUserWithMessage(req.user, user, message, res)
+        })
+
+
+        
     } else {
         return res.status(403).json({ error: 'You do not have permission to access this resource...' });
     }
@@ -199,7 +217,14 @@ app.post('/api/users/email', (req, res) => {
 
 app.post('/api/users/sms', (req, res) => {
     if (auth.isAdmin(req)) {
-        return sms.sendSms(req, res);
+        const toNumbers = req.body.to_phone
+        toNumbers.map(phone => {
+            const textInfo = {
+                to: phone,
+                message: req.body.text
+            }
+            sms.sendText(textInfo, res)
+        })
     } else {
         return res.status(403).json({ error: 'You do not have permission to access this resource...' });
     }

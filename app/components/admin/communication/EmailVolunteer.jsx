@@ -44,7 +44,7 @@ class EmailVolunteer extends React.Component {
         //TODO Add validation and set the error for ChipInput
         this.setState({
             ...this.state,
-            volunteersToEmail: [...this.state.volunteersToEmail, email]
+            volunteersToEmail: [...this.state.volunteersToEmail]
         });
     }
 
