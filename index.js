@@ -76,7 +76,7 @@ app.post('/api/admin/groupNotification', (req, res) => {
         if (reqBody.type === 'email') {
             reqBody.volunteers.map( volunteer => {
                 const message = reqBody.message
-                email.notifyUserWithMessage(req.user, volunteer, message)
+                email.notifyUserWithMessage(req.user, volunteer, null, message)
             })
         }
         else {
@@ -196,25 +196,16 @@ app.put('/api/user', (req, res) => {
 
 app.post('/api/users/email', (req, res) => {
     if (auth.isAdmin(req)) {
+        console.log('Email API called ', req.body);
         const toPpl = req.body.to
         var users = []
-        console.log(req.body)
-        toPpl.map(email => {
-            db.getByEmail('user', email).then(user => {
-                
-                users.push(user)
-            })
-        })
         const subject = req.body.subject
         const message = req.body.contents
-        console.log(users)
-
-        users.map(user => {
-            email.notifyUserWithMessage(req.user, user, message, res)
-        })
-
-
-        
+        toPpl.map(e => {
+            db.getByEmail('user', e).then(user => {
+                email.notifyUserWithMessage(req.user, user, subject, message, res)
+            })
+        });
     } else {
         return res.status(403).json({ error: 'You do not have permission to access this resource...' });
     }
