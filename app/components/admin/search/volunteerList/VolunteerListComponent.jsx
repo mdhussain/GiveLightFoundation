@@ -33,12 +33,12 @@ class VolunteerListComponent extends React.Component {
                 volunteer.index = index
                 return volunteer
             });
-            this.state = {
+            this.setState({
                 ...this.state,
                 volunteers: newVolunteers,
                 volunteerStats: nextProps.volunteerStats,
                 timestamp: nextProps.timestamp
-            }
+            })
         }
     }
 
@@ -67,9 +67,7 @@ class VolunteerListComponent extends React.Component {
     showEmailDialog = () => {
         const volunteersToEmail = this.state.volunteers.filter(volunteer => {
             return volunteer.selected
-        }).map(function (volunteer) {
-            return volunteer.email;
-        });
+        })
         this.setState({
             ...this.state,
             showEmailDialog: true,
@@ -86,10 +84,8 @@ class VolunteerListComponent extends React.Component {
 
     showSMSDialog = () => {
         const volunteersToText = this.state.volunteers.filter(volunteer => {
-            return volunteer.selected && volunteer.phone
-        }).map(function (volunteer) {
-            return volunteer.phone;
-        });
+            return volunteer.selected
+        })
         this.setState({
             ...this.state,
             showSMSDialog: true,

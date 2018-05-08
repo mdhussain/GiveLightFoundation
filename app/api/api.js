@@ -92,9 +92,12 @@ const emailVolunteers = (volunteers, subject, message) => {
         const data = {
             to: volunteers,
             subject: subject,
-            contents: message
+            contents: message,
+            volunteers: volunteers,
+            type: 'email',
+            message: message
         }
-        return makeRequest(data, 'POST', '/api/users/email').then(response => {
+        return makeRequest(data, 'POST', '/api/admin/groupNotification').then(response => {
             return resolve(response.json())
         }).catch(error => {
             console.log(error)
@@ -108,8 +111,11 @@ const smsVolunteers = (volunteers, text) => {
         const data = {
             to_phone: volunteers,
             text: text,
+            volunteers: volunteers,
+            type: 'sms',
+            message: text 
         }
-        return makeRequest(data, 'POST', '/api/users/sms').then(response => {
+        return makeRequest(data, 'POST', '/api/admin/groupNotification').then(response => {
             return resolve(response.json())
         }).catch(error => {
             console.log(error)

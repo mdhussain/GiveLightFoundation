@@ -22,7 +22,6 @@ class SMSVolunteer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.state.showDialog != nextProps.showDialog) {
-            console.log('Recieved ', nextProps.volunteersToText);
             this.setState({
                 ...this.state,
                 showDialog: nextProps.showDialog,
@@ -77,6 +76,7 @@ class SMSVolunteer extends React.Component {
             }).catch(error => {
                 console.log('Error sending text ', error);
                 this.setState({
+                    ...this.state,
                     sendError: error.message,
                 });
             });
@@ -119,6 +119,7 @@ class SMSVolunteer extends React.Component {
                 <RaisedButton label="Cancel" onClick={this.closeTextDialog} />
             ];
             const title = <div className="dialog-title">Text volunteers</div>
+            const volunteerPhoneNumbers = this.state.volunteersToText.map(vol => {return vol.phone})
             return (
                 <Dialog
                     title={title}
@@ -131,7 +132,7 @@ class SMSVolunteer extends React.Component {
                     <div className="dialog-body p-t-10">
                         <ChipInput
                             fullWidth
-                            value={this.state.volunteersToText}
+                            value={volunteerPhoneNumbers}
                             errorText={this.state.emptyVolunteerError}
                             onRequestAdd={(chip) => this.handleAddToTextList(chip)}
                             onRequestDelete={(chip, index) => this.handleRemoveFromTextList(chip, index)}

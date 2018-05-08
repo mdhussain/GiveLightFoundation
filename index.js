@@ -68,24 +68,25 @@ app.post('/api/admin/groupNotification', (req, res) => {
         var reqBody = _.pick(req.body, [
             'volunteers', 'type', 'message'
         ])
+        console.log(reqBody)
         if (reqBody.type === 'email') {
             reqBody.volunteers.map( volunteer => {
                 const message = reqBody.message
-                email.notifyUserWithMessage(req.user, volunteer, message)
+                email.notifyUserWithMessage(req.user, volunteer, message, res)
             })
         }
-        else {
+        else if (reqBody.type === 'sms'){
             reqBody.volunteers.map( volunteer => {
                 const message = reqBody.message + "          Please respond to " + req.user.name + ": " + req.user.phone
                 const messageOptions = {
                     to: '+' + volunteer.phone,
                     message: reqBody.message 
                 }
-                sms.sendText(messageOptions)
+                console.log("send text: ", res)
+                sms.sendText(messageOptions, res)
             })
 
         }
-        return res.json({'message':'sure will send'})
     } else {
         return res.json({ error: 'You do not have permission to access this resource...' });
     }
@@ -139,17 +140,13 @@ app.post('/api/user', (req, res) => {
     ])
     newUser.isAdmin = false
     newUser.approvedBy = ''
-    email.notifyAdmin(newUser)
-    email.notifyUser(newUser)
-    // db.insertOne('user', newUser).then(result => {
-    //     email.notifyAdmin(req.user, newUser)
-    //     email.notifyUser(newUser)
-        
-    //     return res.json(result)
-    // }).catch(error => {
-    //     console.log(error)
-    //     return res.status(422).json(error)
-    // })
+    db.insertOne('user', newUser).then(result => {
+        email.notifyAdmin(req.user, newUser, res)
+        email.notifyUser(newUser, res)
+    }).catch(error => {
+        console.log(error)
+        return res.status(422).json(error)
+    })
 })
 
 app.post('/api/admin/user/makeAdmin', (req, res) => {
@@ -177,8 +174,7 @@ app.put('/api/user', (req, res) => {
         db.updateOneById('user', req.body).then(result => {
             var userRecord = req.body;
             userRecord.recordType = 'User Profile Update'
-            email.notifyUser(userRecord);
-            return res.json(result);
+            email.notifyUser(userRecord, res);
         }).catch(error => {
             console.log(error)
             return res.json(error)

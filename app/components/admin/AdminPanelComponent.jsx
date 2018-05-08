@@ -6,6 +6,7 @@ import VolunteerSkillsInputComponent from '../commonComponents/SkillsInputCompon
 import VolunteerListComponent from './search/volunteerList/VolunteerListComponent'
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector-material-ui'
 import { validateEmail } from '../../../lib/validation.js'
+import SearchVolunteer from './search/SearchVolunteer'
 
 require('./AdminPanelComponent.css')
 require('../sharedCss.css')
@@ -233,11 +234,12 @@ class AdminPanelComponent extends React.Component {
                     </div>
                     <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.volunteerInterestFilterCheckboxes} allowAll={true} />
                     <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={ this.state.searchQuery.skillsInput} />
-
+                    
                 </div>
                 <div className="filterResultsContainer">
                     { this.displayVolunteerList() }
                 </div>
+                <SearchVolunteer />
             </div>
             )
     }

@@ -14,7 +14,7 @@ class EmailVolunteer extends React.Component {
             showDialog: this.props.showDialog,
             volunteersToEmail: this.props.volunteersToEmail,
             emailSubject: '',
-            emailContent: RichTextEditor.createEmptyValue(),
+            emailContent: '',
             sendError: '',
             sendSuccess: '',
         }
@@ -56,16 +56,17 @@ class EmailVolunteer extends React.Component {
         });
     }
 
-    handleEmailTextChange = (richText) => {
+    handleEmailTextChange = (event) => {
+        event.preventDefault()
         this.setState({
             ...this.state,
-            emailContent: richText
+            emailContent: event.target.value
         });
     }
 
     sendEmail = () => {
         let emailAdd = this.state.volunteersToEmail;
-        let emailHtml = this.state.emailContent.toString('html');
+        let emailHtml = this.state.emailContent;
         let emailSubject = this.state.emailSubject;
         if (emailHtml.length !== 0 && emailAdd.length != 0) {
             emailVolunteers(emailAdd, emailSubject, emailHtml).then(response => {
@@ -130,8 +131,10 @@ class EmailVolunteer extends React.Component {
                 LINK_BUTTONS: [
                     { label: 'Link', style: 'link' },
                     { label: 'Remove Link', style: 'remove-link' },
-                ],
+                ]
             }
+            const volunteerEmails = this.state.volunteersToEmail.map(vol => {return vol.email})
+            console.log('emailContent: ', this.state.emailContent)
             return (
                 <Dialog
                     title={title}
@@ -144,7 +147,7 @@ class EmailVolunteer extends React.Component {
                     <div className="dialog-body p-t-10">
                         <ChipInput
                             fullWidth
-                            value={this.state.volunteersToEmail}
+                            value={volunteerEmails}
                             onRequestAdd={(chip) => this.handleAddToEmailList(chip)}
                             onRequestDelete={(chip, index) => this.handleRemoveFromEmailList(chip, index)}
                         />
@@ -155,11 +158,13 @@ class EmailVolunteer extends React.Component {
                             value={this.state.emailSubject}
                             floatingLabelText="Subject"
                             onChange={(e) => this.setState({ emailSubject: e.target.value })} />
-                        <RichTextEditor
+                        <TextField
+                            type="text"
+                            name="message"
+                            fullWidth
                             value={this.state.emailContent}
-                            onChange={this.handleEmailTextChange}
-                            toolbarConfig={toolbarConfig}
-                        />
+                            floatingLabelText="Message"
+                            onChange={this.handleEmailTextChange} />
                     </div>
                 </Dialog>
             )
