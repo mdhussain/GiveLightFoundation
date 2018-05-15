@@ -29,6 +29,15 @@ const loginUser = (userCreds) => {
     })
 }
 
+
+const logoutUser = (userCreds) => {
+    return makeRequest(userCreds, 'POST', '/api/logout').then(response => {
+        return response.json()
+    }).catch(error => {
+        return error
+    })
+}
+
 const registerUser = (newUser) => {
     const uploadData = {
         ...newUser
@@ -165,6 +174,7 @@ const updateUser = (newUser) => {
 
 export {
     loginUser,
+    logoutUser,
     registerUser,
     getUser,
     updateUser,

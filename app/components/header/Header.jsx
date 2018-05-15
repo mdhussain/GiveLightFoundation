@@ -1,37 +1,61 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom'
+import { logoutUser } from '../../api/api'
+import ClientAuth from '../../api/ClientAuth'
 
 require('./Header.css');
 
 const mystyle = {
-    margin: "0px",
-    backgroundColor: "#252525"
+  margin: "0px",
+  backgroundColor: "#0073aa"
 }
 
 export default class Header extends React.Component {
+  state = {
+    leftNavVisible: false,
+  }
+
   constructor(props) {
     super(props);
   }
 
-  state = {
-  };
+  logout = () => {
+    logoutUser();
+    ClientAuth.deauthenticateUser();
+    browserHistory.push('/');
+  }
+
+  toggleLeftNav = () => {
+    this.setState({ toggleLeftNav: !this.state.toggleLeftNav });
+  }
 
   render() {
-    const rightButtons = (
-      <div>
-        <Link to='/login'><FlatButton label="Login" className="buttonStyle" /></Link>
-        <Link to='/signup'><FlatButton label="Sign Up" className="buttonStyle" /></Link>
-      </div>
-    );
+    let rightButtons = (<div />);
+    if (ClientAuth.isUserAuthenticated()) {
+      rightButtons = (
+        <div>
+          <Link className="logout" to="/">Logout</Link>
+        </div>
+      );
+    }
+
     return (
-    <AppBar
-      style={mystyle}
-      className="nav-bar"
-      iconElementRight={rightButtons}
-      title=""
-    />
+      <div>
+        <AppBar
+          style={mystyle}
+          onLeftIconButtonTouchTap={(event) => this.toggleLeftNav()}
+          title={<img className="logo" />}
+        />
+        <Drawer open={this.state.leftNavVisible}>
+          <MenuItem primaryText="My Profile" />
+          <MenuItem primaryText="Search" />
+          <MenuItem primaryText="Sign out" onClick={this.logout} />
+        </Drawer>
+      </div>
     );
   }
 }

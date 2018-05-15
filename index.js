@@ -30,7 +30,7 @@ app.use(cookieParser())
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }))
 auth.init(app)
 
-app.get(['/', '/signup', '/login', '/profile/:id', '/search'], (req, res) => {
+app.get(['/', '/signup', '/login','/logout', '/profile/:id', '/search'], (req, res) => {
     res.sendFile(path.join(publicDir, '/index.html'))
 })
 
@@ -48,6 +48,11 @@ app.post('/api/login', (req, res, next) => {
     })(req, res, next)
 
 })
+
+app.post('/api/logout', function(req, res){
+    req.logout();
+    res.status(200).json({'logout': "success"});
+});
 
 app.get('/api/auth/facebook', passport.authenticate('facebook'));
 
@@ -73,6 +78,7 @@ app.post('/api/admin/groupNotification', (req, res) => {
             reqBody.volunteers.map( volunteer => {
                 const message = reqBody.message
                 email.notifyUserWithMessage(req.user, volunteer, message, res)
+
             })
         }
         else if (reqBody.type === 'sms'){
@@ -187,25 +193,16 @@ app.put('/api/user', (req, res) => {
 
 app.post('/api/users/email', (req, res) => {
     if (auth.isAdmin(req)) {
+        console.log('Email API called ', req.body);
         const toPpl = req.body.to
         var users = []
-        console.log(req.body)
-        toPpl.map(email => {
-            db.getByEmail('user', email).then(user => {
-                
-                users.push(user)
-            })
-        })
         const subject = req.body.subject
         const message = req.body.contents
-        console.log(users)
-
-        users.map(user => {
-            email.notifyUserWithMessage(req.user, user, message, res)
-        })
-
-
-        
+        toPpl.map(e => {
+            db.getByEmail('user', e).then(user => {
+                email.notifyUserWithMessage(req.user, user, subject, message, res)
+            })
+        });
     } else {
         return res.status(403).json({ error: 'You do not have permission to access this resource...' });
     }

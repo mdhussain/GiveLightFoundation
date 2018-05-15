@@ -5,12 +5,13 @@ import TextField from 'material-ui/TextField'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import GiveLightLogoComponent from '../commonComponents/GiveLightLogoComponent'
 import { loginUser } from '../../api/api'
+import ClientAuth from '../../api/ClientAuth'
 import FontAwesome from 'react-fontawesome';
 import { render as _render } from "react-dom";
 
 import {
     BrowserRouter as Router,
-    Redirect,
+    Redirect, 
     Route,
     Link
 } from 'react-router-dom'
@@ -56,6 +57,7 @@ class LoginComponent extends React.Component {
     handleLoggingUser = () => {
         loginUser(this.state).then(user => {
             if (user._id) {
+                ClientAuth.authenticateUser(user._id);
                 this.setState({
                     user,
                     goToProfile: true
@@ -81,10 +83,6 @@ class LoginComponent extends React.Component {
         if (this.state.error) {
             return <div className="login-error">Invalid Username/Password, please try again</div>;
         }
-    }
-
-    goBacktoGiveLightMain = (event) => {
-        window.location = 'http://www.givelight.org'
     }
 
     render() {

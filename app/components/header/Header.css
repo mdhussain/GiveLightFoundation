@@ -1,4 +1,12 @@
-.buttonStyle {
-    color: white !important;
-    margin-top: 5px !important;
+.logo {
+    content:url("http://www.givelight.org/images/branding/logo_lg-white.png");
+    width: 100px;
+}
+
+.logout {
+    text-decoration: none;
+    font-size: 14px;
+    color: white;
+    line-height: 1.5;
+    border-bottom: 1px solid #999999;
 }
