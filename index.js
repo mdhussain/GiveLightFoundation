@@ -75,9 +75,10 @@ app.post('/api/admin/groupNotification', (req, res) => {
         ])
         if (reqBody.type === 'email') {
             // change to texting a list to send response of ok or not
+
             reqBody.volunteers.map( volunteer => {
                 const message = reqBody.message
-                email.notifyUserWithMessage(req.user, volunteer, message, res)
+                email.notifyUserWithMessage(req.user, volunteer, message)
 
             })
         }
@@ -89,10 +90,11 @@ app.post('/api/admin/groupNotification', (req, res) => {
                     to: '+' + volunteer.phone,
                     message: message 
                 }
-                sms.sendText(messageOptions, res)
+                sms.sendText(messageOptions)
             })
 
         }
+        return res.json({ 'msg':'success!!' })
     } else {
         return res.json({ error: 'You do not have permission to access this resource...' });
     }
@@ -147,8 +149,9 @@ app.post('/api/user', (req, res) => {
     newUser.isAdmin = false
     newUser.approvedBy = ''
     db.insertOne('user', newUser).then(result => {
-        email.notifyAdmin(req.user, newUser, res)
-        email.notifyUser(newUser, res)
+        email.notifyAdmin(req.user, newUser)
+        email.notifyUser(newUser)
+        return res.status(202).json(result)
     }).catch(error => {
         console.log(error)
         return res.status(422).json(error)
@@ -180,7 +183,8 @@ app.put('/api/user', (req, res) => {
         db.updateOneById('user', req.body).then(result => {
             var userRecord = req.body;
             userRecord.recordType = 'User Profile Update'
-            email.notifyUser(userRecord, res);
+            email.notifyUser(userRecord);
+            return res.status(200).json(result)
         }).catch(error => {
             console.log(error)
             return res.json(error)

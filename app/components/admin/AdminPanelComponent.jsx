@@ -218,28 +218,14 @@ class AdminPanelComponent extends React.Component {
                         </div>
                     </div>
                 </div>
+                <SearchVolunteer />
                 <div className="filterContainer">
-                    <div >
-                        <CountryDropdown
-                            value={this.state.searchQuery.country}
-                            onChange={this.handleCountry}
-                        />
-                    </div>
-                    <div>
-                        <RegionDropdown
-                            country={this.state.searchQuery.country}
-                            value={this.state.searchQuery.region}
-                            onChange={this.handleRegion}
-                        />
-                    </div>
-                    <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.volunteerInterestFilterCheckboxes} allowAll={true} />
-                    <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={ this.state.searchQuery.skillsInput} />
                     
                 </div>
                 <div className="filterResultsContainer">
                     { this.displayVolunteerList() }
                 </div>
-                <SearchVolunteer />
+                
             </div>
             )
     }

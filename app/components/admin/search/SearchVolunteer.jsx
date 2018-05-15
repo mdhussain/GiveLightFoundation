@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { exportUserData, getAllUsers, searchVolunteers, makeAdmin } from '../../../api/api';
-// import { interests } from '../../models/interests';
-// import VolunteerInterestsCheckboxesComponent from '../commonComponents/VolunteerInterestsCheckboxesComponent';
-// import VolunteerSkillsInputComponent from '../commonComponents/SkillsInputComponent';
+import { interests } from '../../../models/interests';
+import VolunteerInterestsCheckboxesComponent from '../../commonComponents/VolunteerInterestsCheckboxesComponent';
+import VolunteerSkillsInputComponent from '../../commonComponents/SkillsInputComponent';
 import VolunteerListComponent from './volunteerList/VolunteerListComponent';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector-material-ui';
 import Paper from 'material-ui/Paper';
@@ -14,14 +14,19 @@ require('../../sharedCss.css')
 class SearchVolunteer extends React.Component {
     constructor(props) {
         super(props)
+        const checkInterests = interests.map(interest => ({ interest: interest, checked: false }))
         this.state = {
             loadingScreenShow: false,
             searchQuery: {
                 searchText: '',
                 country: '',
-                region: ''
+                region: '',
+                interests: checkInterests,
+                checkboxInterests: checkInterests
             },
-            searchResult: {}
+            searchResult: {
+                
+            }
         }
     }
 
@@ -34,18 +39,18 @@ class SearchVolunteer extends React.Component {
         this.setState({ ...this.state, searchQuery: searchQuery })
     }
 
-    // handleSkillsInput = (event) => {
-    //     event.preventDefault()
-    //     let searchQuery = {
-    //         ...this.state.searchQuery,
-    //         skillsInput: event.target.value,
-    //         skills: event.target.value.split(/\s*,\s*/),
-    //     }
-    //     if (searchQuery.skills && searchQuery.skills.length == 0 || searchQuery.skills[0] == '') {
-    //         delete searchQuery['skills']
-    //     }
-    //     this.searchVolunteersHandler(searchQuery)
-    // }
+    handleSkillsInput = (event) => {
+        event.preventDefault()
+        let searchQuery = {
+            ...this.state.searchQuery,
+            skillsInput: event.target.value,
+            skills: event.target.value.split(/\s*,\s*/),
+        }
+        if (searchQuery.skills && searchQuery.skills.length == 0 || searchQuery.skills[0] == '') {
+            delete searchQuery['skills']
+        }
+        this.searchVolunteersHandler(searchQuery)
+    }
 
     handleCountry = (event, index, value) => {
         event.preventDefault()
@@ -53,7 +58,8 @@ class SearchVolunteer extends React.Component {
             ...this.state.searchQuery,
             country: value
         }
-        this.setState({ ...this.state, searchQuery: searchQuery })
+        this.searchVolunteersHandler(searchQuery)
+        //this.setState({ ...this.state, searchQuery: searchQuery })
     }
 
     handleRegion = (event, index, value) => {
@@ -62,38 +68,40 @@ class SearchVolunteer extends React.Component {
             ...this.state.searchQuery,
             region: value
         }
-        this.setState({ ...this.state, searchQuery: searchQuery })
+        this.searchVolunteersHandler(searchQuery)
+        //this.setState({ ...this.state, searchQuery: searchQuery })
     }
 
-    // handleCheckbox = (event, index, interest) => {
-    //     event.preventDefault()
-    //     this.setState({ ...this.state, loadingScreenShow: true })
-    //     var data = this.state.volunteerInterestFilterCheckboxes
-    //     data[index] = { interest: data[index].interest, checked: !data[index].checked }
-    //     var volunteerInterests = []
-    //     data.map( interestCheckbox => {
-    //         if (interestCheckbox.checked) {
-    //             volunteerInterests.push(interestCheckbox.interest)
-    //         }
-    //     })
-    //     let searchQuery = {
-    //         ...this.state.searchQuery,
-    //         interests: volunteerInterests
-    //     }
-    //     if (searchQuery.interests.length == 0) {
-    //         delete searchQuery['interests']
-    //     }
-    //     this.searchVolunteersHandler(searchQuery)
-    // }
+    handleCheckbox = (event, index, interest) => {
+        event.preventDefault()
+        this.setState({ ...this.state, loadingScreenShow: true })
+        var data = this.state.searchQuery.checkboxInterests
+        data[index] = { interest: data[index].interest, checked: !data[index].checked }
+        var volunteerInterests = []
+        let interests = data.filter( interestCheckbox => {
+            return interestCheckbox.checked
+        }).map( interestCheckbox => {
+            return interestCheckbox.interest
+        })
+        console.log("-----",interests)
+        let searchQuery = {
+            ...this.state.searchQuery,
+            interests: interests
+        }
+        if (searchQuery.interests.length == 0) {
+            delete searchQuery['interests']
+        }
+        this.searchVolunteersHandler(searchQuery)
+    }
 
     handleSubmit = (event) => {
         event.preventDefault()
         this.searchVolunteersHandler()
     }
 
-    searchVolunteersHandler = () => {
-        let searchQuery = this.state.searchQuery;
-        console.log(searchQuery);
+    searchVolunteersHandler = (searchQuery) => {
+        //let searchQuery = this.state.searchQuery;
+        console.log("-------------",searchQuery);
         this.showLoadingPanel();
         searchVolunteers(searchQuery).then( response => {
                 console.log('Search Result: ', response);
@@ -163,8 +171,8 @@ class SearchVolunteer extends React.Component {
                                     value={this.state.searchQuery.region}
                                     onChange={this.handleRegion} />
                             </div>
-                            {/* <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.volunteerInterestFilterCheckboxes} allowAll={true} />
-                            <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={ this.state.searchQuery.skillsInput} /> */}
+                            <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.searchQuery.interests} allowAll={true} />
+                            {/* <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={ this.state.searchQuery.skillsInput} /> */}
                         </div>
                     </form>
                 </div>
