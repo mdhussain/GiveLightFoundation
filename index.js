@@ -68,21 +68,21 @@ app.post('/api/admin/groupNotification', (req, res) => {
         var reqBody = _.pick(req.body, [
             'volunteers', 'type', 'message'
         ])
-        console.log(reqBody)
         if (reqBody.type === 'email') {
+            // change to texting a list to send response of ok or not
             reqBody.volunteers.map( volunteer => {
                 const message = reqBody.message
                 email.notifyUserWithMessage(req.user, volunteer, message, res)
             })
         }
         else if (reqBody.type === 'sms'){
+            // change to texting a list to send response of ok or not
             reqBody.volunteers.map( volunteer => {
-                const message = reqBody.message + "          Please respond to " + req.user.name + ": " + req.user.phone
+                const message = reqBody.message + " Please respond to " + req.user.name + ": " + req.user.phone
                 const messageOptions = {
                     to: '+' + volunteer.phone,
-                    message: reqBody.message 
+                    message: message 
                 }
-                console.log("send text: ", res)
                 sms.sendText(messageOptions, res)
             })
 

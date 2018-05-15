@@ -121,6 +121,9 @@ class SignupComponent extends React.Component {
         if (!isValidEmail(this.state.email)) {
             errors.email = 'Please enter a valid email.';
         }
+        if (this.state.phone.length < 10) {
+            errors.passphrase = 'Please enter a valid phone number with country code.'
+        }
         if (!this.state.passphrase) {
             errors.passphrase = 'Please enter a passphrase.'
         }
@@ -166,7 +169,7 @@ class SignupComponent extends React.Component {
                             <div className="section">
                                 <div className="checkBoxStyle"><TextField type="text" name="name" value={this.state.name} floatingLabelText="Name" errorText={this.state.errors.name} onChange={(e) => this.handleField('name', e)} /></div>
                                 <div><TextField type="text" name="email" value={this.state.email} floatingLabelText="Email" errorText={this.state.errors.email} onChange={(e) => this.handleField('email', e)} /></div>
-                                <div><TextField type="number" floatingLabelText="Phone" name="phone" onChange={(e) => this.handleField('phone', e)} /></div>
+                                <div><TextField type="number" floatingLabelText="Phone 15558971234" name="phone" onChange={(e) => this.handleField('phone', e)} /></div>
                                 <div><TextField type="password" name="passphrase" value={this.state.passphrase} floatingLabelText="Passphrase" errorText={this.state.errors.passphrase} onChange={(e) => this.handleField('passphrase', e)} /></div>
                                 <div><TextField type="password" name="retypePassphrase" value={this.state.retypePassphrase} floatingLabelText="Retype Passphrase" errorText={this.state.errors.retypePassphrase} onChange={(e) => this.handleField('retypePassphrase', e)} /></div>
                                 <div className="countryRegionContainer">
