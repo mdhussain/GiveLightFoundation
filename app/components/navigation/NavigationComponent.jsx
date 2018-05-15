@@ -7,21 +7,15 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Header from '../header/Header';
 import SignupComponent from '../signup/SignupComponent';
 import LoginComponent from '../login/LoginComponent';
+import HomeComponent from './HomeComponent';
 import ProfileComponent from '../profile/ProfileComponent';
 import SearchVolunteer from '../admin/search/SearchVolunteer';
-import ClientAuth from '../../api/ClientAuth'
-
 require('./NavigationComponent.css');
 
 class NavigationComponent extends React.Component {
   constructor(props) {
     super(props);
   }
-
-  loggedIn = () => {
-    return ClientAuth.isUserAuthenticated();
-  }
-  
 
   render() {
     return (
@@ -30,7 +24,7 @@ class NavigationComponent extends React.Component {
             <div>
               <Header />
               <Switch>
-                <Route exact path='/' component={LoginComponent}/>
+                <Route exact path='/' component={HomeComponent}/>
                 <Route path='/signup' component={SignupComponent}/>
                 <Route path='/login' component={LoginComponent}/>
                 <Route path='/profile' component={ProfileComponent}/>

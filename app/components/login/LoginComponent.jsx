@@ -57,7 +57,9 @@ class LoginComponent extends React.Component {
     handleLoggingUser = () => {
         loginUser(this.state).then(user => {
             if (user._id) {
-                ClientAuth.authenticateUser(user._id);
+                var expiresAt = new Date();
+                expiresAt.setMinutes(expiresAt.getMinutes() + 30);
+                ClientAuth.storeAuthState(user._id, user.isAdmin, expiresAt.getTime());
                 this.setState({
                     user,
                     goToProfile: true

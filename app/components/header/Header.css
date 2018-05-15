@@ -3,10 +3,6 @@
     width: 100px;
 }
 
-.logout {
+.menu-links {
     text-decoration: none;
-    font-size: 14px;
-    color: white;
-    line-height: 1.5;
-    border-bottom: 1px solid #999999;
 }
