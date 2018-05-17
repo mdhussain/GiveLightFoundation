@@ -34,6 +34,7 @@ app.get(['/', '/signup', '/login','/logout', '/profile/:id', '/search'], (req, r
     res.sendFile(path.join(publicDir, '/index.html'))
 })
 
+
 app.post('/api/login', (req, res, next) => {
     // See: https://github.com/jaredhanson/passport-local
     passport.authenticate('local', (err, user, info) => {
@@ -71,14 +72,14 @@ app.post('/api/users/search', (req, res) => {
 app.post('/api/admin/groupNotification', (req, res) => {
     if (auth.isAdmin(req)) {
         var reqBody = _.pick(req.body, [
-            'volunteers', 'type', 'message'
+            'volunteers', 'type', 'message', 'subject'
         ])
         if (reqBody.type === 'email') {
             // change to texting a list to send response of ok or not
 
             reqBody.volunteers.map( volunteer => {
                 const message = reqBody.message
-                email.notifyUserWithMessage(req.user, volunteer, message)
+                email.notifyUserWithMessage(req.user, volunteer, reqBody.subject, message)
 
             })
         }
@@ -162,6 +163,26 @@ app.post('/api/admin/user/makeAdmin', (req, res) => {
     if (auth.isAdmin(req)) {
         db.getByEmail('user', _.pick(req.body, ['email'])).then(volunteer => {
             volunteer.isAdmin = true
+            volunteer.approvedBy = req.user._id
+            db.updateOneById('user', volunteer).then(result => {
+                return res.status(200).json(result)
+            }).catch(error => {
+                console.log(error)
+                return res.status(200).json(error)
+            })
+        }).catch(error => {
+            console.log('error in getByEmail', error)
+        })
+    }
+    else {
+        return res.status(403).json({ error: 'You do not have permission to access this resource.....' })
+    }
+})
+
+app.post('/api/admin/user/unmakeAdmin', (req, res) => {
+    if (auth.isAdmin(req)) {
+        db.getByEmail('user', _.pick(req.body, ['email'])).then(volunteer => {
+            volunteer.isAdmin = false
             volunteer.approvedBy = req.user._id
             db.updateOneById('user', volunteer).then(result => {
                 return res.status(200).json(result)
