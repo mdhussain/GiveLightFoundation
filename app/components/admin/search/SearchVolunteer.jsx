@@ -49,6 +49,7 @@ class SearchVolunteer extends React.Component {
         if (searchQuery.skills && searchQuery.skills.length == 0 || searchQuery.skills[0] == '') {
             delete searchQuery['skills']
         }
+        console.log("skills input search query:", searchQuery)
         this.searchVolunteersHandler(searchQuery)
     }
 
@@ -172,7 +173,7 @@ class SearchVolunteer extends React.Component {
                                     onChange={this.handleRegion} />
                             </div>
                             <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.searchQuery.interests} allowAll={true} />
-                            {/* <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={ this.state.searchQuery.skillsInput} /> */}
+                            <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={ this.state.searchQuery.skillsInput} />
                         </div>
                     </form>
                 </div>

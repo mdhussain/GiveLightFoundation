@@ -203,8 +203,7 @@ app.put('/api/user', (req, res) => {
     if (req.isAuthenticated() && req.body._id === req.user._id.toString()) {
         db.updateOneById('user', req.body).then(result => {
             var userRecord = req.body;
-            userRecord.recordType = 'User Profile Update'
-            email.notifyUser(userRecord);
+            email.notifyUserProfileUpdate(userRecord);
             return res.status(200).json(result)
         }).catch(error => {
             console.log(error)
