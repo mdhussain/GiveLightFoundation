@@ -150,7 +150,7 @@ app.post('/api/user', (req, res) => {
     newUser.isAdmin = false
     newUser.approvedBy = ''
     db.insertOne('user', newUser).then(result => {
-        email.notifyAdmin(req.user, newUser)
+        email.notifyAdmin(newUser)
         email.notifyUser(newUser)
         return res.status(202).json(result)
     }).catch(error => {
