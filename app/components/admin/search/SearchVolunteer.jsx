@@ -84,7 +84,6 @@ class SearchVolunteer extends React.Component {
         }).map( interestCheckbox => {
             return interestCheckbox.interest
         })
-        console.log("-----",interests)
         let searchQuery = {
             ...this.state.searchQuery,
             interests: interests
@@ -101,11 +100,8 @@ class SearchVolunteer extends React.Component {
     }
 
     searchVolunteersHandler = (searchQuery) => {
-        //let searchQuery = this.state.searchQuery;
-        console.log("-------------",searchQuery);
         this.showLoadingPanel();
         searchVolunteers(searchQuery).then( response => {
-                console.log('Search Result: ', response);
                 this.setState({
                     ...this.state,
                     searchResult: response
