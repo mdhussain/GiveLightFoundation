@@ -17,12 +17,12 @@ class SearchVolunteer extends React.Component {
         const checkInterests = interests.map(interest => ({ interest: interest, checked: false }))
         this.state = {
             loadingScreenShow: false,
+            checkboxInterests: checkInterests,
             searchQuery: {
                 searchText: '',
                 country: '',
                 region: '',
-                interests: checkInterests,
-                checkboxInterests: checkInterests
+                interests: [],
             },
             searchResult: {
                 
@@ -76,7 +76,7 @@ class SearchVolunteer extends React.Component {
     handleCheckbox = (event, index, interest) => {
         event.preventDefault()
         this.setState({ ...this.state, loadingScreenShow: true })
-        var data = this.state.searchQuery.checkboxInterests
+        var data = this.state.checkboxInterests
         data[index] = { interest: data[index].interest, checked: !data[index].checked }
         var volunteerInterests = []
         let interests = data.filter( interestCheckbox => {
@@ -89,7 +89,7 @@ class SearchVolunteer extends React.Component {
             ...this.state.searchQuery,
             interests: interests
         }
-        if (searchQuery.interests.length == 0) {
+        if (searchQuery.interests.length === 0) {
             delete searchQuery['interests']
         }
         this.searchVolunteersHandler(searchQuery)
@@ -172,7 +172,7 @@ class SearchVolunteer extends React.Component {
                                     value={this.state.searchQuery.region}
                                     onChange={this.handleRegion} />
                             </div>
-                            <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.searchQuery.interests} allowAll={true} />
+                            <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.checkboxInterests} allowAll={true} />
                             <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={ this.state.searchQuery.skillsInput} />
                         </div>
                     </form>
