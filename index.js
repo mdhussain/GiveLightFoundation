@@ -112,17 +112,19 @@ app.get('/api/users', (req, res) => {
 })
 
 app.get('/api/user/:id', (req, res) => {
-    if (req.user) {
-        var user = req.user
-        return res.json({ user });
-    }
-    if (req.isAuthenticated() && req.params.id === req.user._id.toString()) {
+    //TODO Check why we need this. An Admin should be able to view anyone's profile
+    // if (req.user) {
+    //     var user = req.user
+    //     return res.json({ user });
+    // }
+    if (auth.isAdmin(req) || (req.isAuthenticated() && req.params.id === req.user._id.toString())) {
         db.getById('user', req.params.id).then(user => {
+            delete user.passphrase
             req.user = user
             return res.json({ user })
         })
     } else {
-        return res.status(401).json({ error: 'Not authenticated' })
+        return res.status(403).json({ error: 'You do not have permission to access this resource.' })
     }
 })
 

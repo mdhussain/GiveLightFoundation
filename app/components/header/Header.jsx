@@ -56,7 +56,7 @@ export default class Header extends React.Component {
                   onRequestChange={(leftNavVisible) => this.setState({ leftNavVisible })}
                   containerStyle={{ height: 'calc(100% - 64px)', top: 64 }}
                 >
-                    <Link to="/profile" className="menu-links">
+                    <Link to={`/profile/${ClientAuth.getToken()}`} className="menu-links">
                         <MenuItem primaryText="My Profile" leftIcon={<ProfileIcon />} onClick={this.closeLeftNav}/>
                     </Link>
                     {ClientAuth.isAdminUser() && <Link to="/search" className="menu-links">

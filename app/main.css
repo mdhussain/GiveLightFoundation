@@ -26,6 +26,14 @@
     padding-top: 31px;
 }
 
+.p-t-70 {
+    padding-top: 70px;
+}
+
+.p-t-150 {
+    padding-top: 150px;
+}
+
 .p-b-23 {
     padding-bottom: 23px;
 }
@@ -33,8 +41,13 @@
 .p-r-110 {
     padding-right: 110px;
 }
+
 .p-r-5 {
     padding-right: 5px;
+}
+
+.p-r-10 {
+    padding-right: 10px;
 }
 
 .p-l-5 {
