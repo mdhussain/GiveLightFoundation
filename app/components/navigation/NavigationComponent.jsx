@@ -27,7 +27,7 @@ class NavigationComponent extends React.Component {
                 <Route exact path='/' component={HomeComponent}/>
                 <Route path='/signup' component={SignupComponent}/>
                 <Route path='/login' component={LoginComponent}/>
-                <Route path='/profile' component={ProfileComponent}/>
+                <Route path='/profile/:id' component={ProfileComponent}/>
                 <Route path='/search' component={SearchVolunteer}/>
               </Switch>
             

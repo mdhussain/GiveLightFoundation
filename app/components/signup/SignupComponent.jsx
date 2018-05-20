@@ -72,10 +72,10 @@ class SignupComponent extends React.Component {
     
     handleSkillsInput = (event) => {
         event.preventDefault()
-        if (event.target.value == "") {
+        if (event.target.value === '') {
             this.setState({
                 ...this.state,
-                skillsInput: "",
+                skillsInput: '',
                 skills: []
             })
         }

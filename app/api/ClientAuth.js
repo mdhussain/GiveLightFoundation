@@ -9,7 +9,6 @@ class ClientAuth {
     static isUserAuthenticated() {
       var now = new Date();
       var expiresAt = localStorage.getItem('expires_at');
-      console.log(expiresAt)
       return localStorage.getItem('id') && expiresAt && now.getTime() < expiresAt;
     }
 

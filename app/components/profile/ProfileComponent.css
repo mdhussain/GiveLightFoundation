@@ -1,14 +1,61 @@
 
-.adminProfileNavigationContainer {
-
+.profile-panel-box {
+    width: 680px;
+    background: #fff;
+    border-radius: 10px;
+    position: relative;
+    border-style: solid;
+    border-width: thin;
+    border-color: lightgrey;
+    box-sizing: border-box;
+    left: 30%;
+    background: #FAFAFA;
+    display:block;
 }
 
-.navItem {
-    display: inline-block;
-    font-size: 18px;
-    margin: 10px;
+.profile-img {
+    position: absolute;
+    width: 150px;
+    padding: 3px;
+    border-radius: 100px;
+    border: 3px solid white;
+    left: 40%;
+    top: -110px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 }
 
-.navItem:hover {
-    color: green
+.profile-volunteer-attrs {
+    font-size: 15;
+    color: #606060;
+}
+
+.profile-volunteer-name {
+    font-size: 30;
+    color: #606060;
+}
+
+.profile-volunteer-icons {
+    transform: scale(0.7);
+}
+
+.profile-skils {
+    border-top: 1px solid lightgrey
+}
+
+.profile-skills-label {
+    font-size: 15;
+    color: #606060;
+    font-weight: bold;
+}
+
+
+.profile-get-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
 }

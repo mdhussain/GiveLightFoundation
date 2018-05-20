@@ -104,6 +104,9 @@ class SearchVolunteer extends React.Component {
         searchVolunteers(searchQuery).then( response => {
                 this.setState({
                     ...this.state,
+                    searchQuery: {
+                        ...searchQuery
+                    },
                     searchResult: response
             });
             this.hideLoadingPanel();
@@ -168,8 +171,8 @@ class SearchVolunteer extends React.Component {
                                     value={this.state.searchQuery.region}
                                     onChange={this.handleRegion} />
                             </div>
-                            <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.checkboxInterests} allowAll={true} />
                             <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={ this.state.searchQuery.skillsInput} />
+                            <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.checkboxInterests} allowAll={true} />
                         </div>
                     </form>
                 </div>
