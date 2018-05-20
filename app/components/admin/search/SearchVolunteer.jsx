@@ -49,7 +49,6 @@ class SearchVolunteer extends React.Component {
         if (searchQuery.skills && searchQuery.skills.length == 0 || searchQuery.skills[0] == '') {
             delete searchQuery['skills']
         }
-        console.log("skills input search query:", searchQuery)
         this.searchVolunteersHandler(searchQuery)
     }
 

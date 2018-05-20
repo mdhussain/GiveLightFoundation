@@ -36,7 +36,7 @@ class VolunteerDisplayComponent extends React.Component {
                 <div className="volunteerInfo">
                     <div className="volunteerName p-l-5">{this.props.volunteer.name}</div>
                     <div className="volunteerData m-b-35 p-l-5">
-                        <TextTruncate length={'60'} text={skills} />
+                        <TextTruncate length={60} text={skills} />
                     </div>
                     <div className="volunteerData">
                         {this.renderField(<EmailIcon className="volunteerInfoSVGIcons"/>, this.props.volunteer.email)}
