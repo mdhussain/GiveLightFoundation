@@ -122,22 +122,25 @@ class SignupComponent extends React.Component {
             errors.email = 'Please enter a valid email.';
         }
         if (this.state.phone.length < 10) {
-            errors.passphrase = 'Please enter a valid phone number with country code.'
+            errors.phone = 'Please enter a valid phone number with country code.'
         }
-        if (!this.state.passphrase) {
-            errors.passphrase = 'Please enter a passphrase.'
+        if (this.state.passphrase.length < 10) {
+            errors.passphrase = 'Please enter a valid passphrase. Greater than 10 characters'
         }
-        if (!this.state.retypePassphrase) {
+        if (this.state.retypePassphrase !== this.state.passphrase) {
             errors.retypePassphrase = 'Please retype your passphrase.'
         }
         if (this.state.passphrase !== this.state.retypePassphrase) {
             errors.passphrase = 'Passphrases do not match.'
         }
-        if (!this.state.country) {
+        if (this.state.country === '') {
             errors.country = 'Please select a country.'
         }
-        if (!this.state.region) {
+        if (this.state.region === '') {
             errors.region = 'Please select a region.'
+        }
+        if (this.state.interests.length === 0) {
+            errors.interests = 'Please select at least 1 interest.'
         }
         return errors
     }
@@ -145,6 +148,7 @@ class SignupComponent extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
         let errors = this.validateState()
+        console.log(errors)
         this.setState( {
             ...this.state,
             errors: errors
@@ -175,21 +179,28 @@ class SignupComponent extends React.Component {
                                 <div className="countryRegionContainer">
                                     <CountryDropdown
                                         value={this.state.country}
-                                        errorText={this.state.errors.country}
                                         onChange={this.handleCountry}
                                     />
+                                    <div className="errorText">
+                                        {this.state.errors.country}
+                                    </div>
                                 </div>
                                 <div className="countryRegionContainer">
                                     <RegionDropdown
                                         country={this.state.country}
                                         value={this.state.region}
-                                        errorText={this.state.errors.region}
                                         onChange={this.handleRegion}
                                     />
+                                    <div className="errorText">
+                                        {this.state.errors.region}
+                                    </div>
                                 </div>
                             </div>
                             <div className={`section volunteerDetailsContainer`}>
                                 <h3>Please choose at most 3:</h3>
+                                <div className="errorText">
+                                        {this.state.errors.interests}
+                                </div>
                                 <VolunteerInterestsCheckboxesComponent handleCheckbox={this.handleCheckbox} checkboxInterests={this.state.checkboxInterests} />
                                 <VolunteerSkillsInputComponent handleSkillsInput={this.handleSkillsInput} skillsInput={this.state.skillsInput ? this.state.skillsInput : ''} />
                             </div>

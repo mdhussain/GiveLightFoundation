@@ -27,7 +27,11 @@
 .countryRegionContainer {
     padding-top: 10px;
 }
-
+.errorText {
+    font-size: 9px;
+    color: red;
+    font-weight: 400;
+}
 .sign-up-panel-box {
     width: 800px;
     background: #fff;
