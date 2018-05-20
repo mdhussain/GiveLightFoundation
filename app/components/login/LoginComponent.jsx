@@ -66,7 +66,7 @@ class LoginComponent extends React.Component {
                 })
             }
             else {
-                console.log('Error in login', error)
+                console.log('Error in login')
                 this.setLoginError();
             }
         }).catch( (error) => {

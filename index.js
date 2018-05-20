@@ -202,11 +202,18 @@ app.post('/api/admin/user/unmakeAdmin', (req, res) => {
 })
 
 app.put('/api/user', (req, res) => {
-    if (req.isAuthenticated() && req.body._id === req.user._id.toString()) {
-        db.updateOneById('user', req.body).then(result => {
-            var userRecord = req.body;
-            email.notifyUserProfileUpdate(userRecord);
-            return res.status(200).json(result)
+    if (auth.isAdmin(req) || (req.isAuthenticated() && req.body._id === req.user._id.toString())) {
+        db.getById('user', req.body._id).then(user => {
+            req.body.isAdmin = user.isAdmin //Don't flip the admin switch in update API.
+            db.updateOneById('user', req.body).then(result => {
+                var userRecord = req.body;
+                email.notifyUserProfileUpdate(userRecord);
+                delete result.passphrase
+                return res.status(200).json(result)
+            }).catch(error => {
+                console.log(error)
+                return res.json(error)
+            })
         }).catch(error => {
             console.log(error)
             return res.json(error)

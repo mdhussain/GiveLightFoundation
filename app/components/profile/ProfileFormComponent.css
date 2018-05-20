@@ -1,0 +1,50 @@
+
+.section {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    margin-top: 10px;
+}
+
+.skillsInputStyle {
+    width: 100%;
+}
+
+.volunteerDetailsContainer {
+    text-align: left;
+}
+
+.checkBoxStyle {
+    margin-top: 10px;
+}
+
+.interestsCheckboxContainer {
+    display: inline-block;
+    width: 360px;
+    text-align: left;
+}
+
+.countryRegionContainer {
+    padding-top: 10px;
+}
+
+.sign-up-panel-box {
+    width: 800px;
+    background: #fff;
+    border-radius: 10px;
+    position: relative;
+    border-style: solid;
+    border-width: thin;
+    border-color: lightgrey;
+    box-sizing: border-box;
+    overflow: hidden;
+    top: 15%;
+    left: 40%;
+    margin: 10px 0 0 -200px;
+    background: #FAFAFA;
+}
+
+.sign-up-panel-sign-up-btn {
+    width: 30%;
+    margin-top: 10px;
+}

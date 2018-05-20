@@ -76,7 +76,14 @@
     padding-bottom: 3px;
 }
 
-.sign-up-panel-sign-up-btn {
-    width: 30%;
-    margin-top: 10px;
+.sign-up-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    width: 100%;
 }

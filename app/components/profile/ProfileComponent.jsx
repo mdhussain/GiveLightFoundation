@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { getUser } from '../../api/api'
+import { getUser, updateUser } from '../../api/api'
 import Paper from 'material-ui/Paper';
 import avatarIcon from '../../../images/avatar.png';
 import EmailIcon from 'material-ui/svg-icons/communication/email'
@@ -8,8 +8,9 @@ import MapIcon from 'material-ui/svg-icons/maps/map'
 import EditIcon from 'material-ui/svg-icons/image/edit'
 import Chip from 'material-ui/Chip';
 import IconButton from 'material-ui/IconButton';
-import { blue300, lightBlue50 } from 'material-ui/styles/colors';
+import ProfileFormComponent from './ProfileFormComponent';
 
+import { blue300, lightBlue50 } from 'material-ui/styles/colors';
 
 require('./ProfileComponent.css');
 
@@ -30,6 +31,7 @@ class ProfileComponent extends React.Component {
         this.state = {
             id: props.match.params.id,
             error: '',
+            editView: false,
             user: {},
         }
     }
@@ -68,6 +70,20 @@ class ProfileComponent extends React.Component {
         });
     }
 
+    showProfileEditView = () => {
+        this.setState({
+            ...this.state,
+            editView: true
+        });
+    };
+
+    closeProfileEditView = () => {
+        this.setState({
+            ...this.state,
+            editView: false,
+        });
+    }
+
     renderField = (icon, text) => {
         if (text) {
             return (
@@ -82,36 +98,68 @@ class ProfileComponent extends React.Component {
         }
     }
 
-    render() {
-        return (
-            <Paper>
-                <div className="p-b-33 p-t-150">
-                    <div className="profile-panel-box p-b-33">
-                        {this.renderError()}
-                        {this.state.user._id &&
-                            <div className="p-t-70">
-                                <img src={avatarIcon} className="profile-img" />
-                                <div className="div-center profile-volunteer-name">{this.state.user.name}
-                                    {/* onClick={(event) => this.showEmailDialog()} */}
-                                    <IconButton color="primary" tooltip="Edit" tooltipPosition="bottom-right">
-                                        <EditIcon color={blue300} />
-                                    </IconButton>
-                                </div>
-                                <div className="div-center profile-volunteer-attrs p-b-9">
-                                    {this.renderField(<EmailIcon className="profile-volunteer-icons" />, this.state.user.email)}
-                                    {this.renderField(<CallIcon className="profile-volunteer-icons" />, this.state.user.phone)}
-                                    {this.renderField(<MapIcon className="profile-volunteer-icons" />, this.state.user.country + ' - ' + this.state.user.region)}
-                                </div>
-                                <div className="div-center profile-skils p-t-13" style={styles.wrapper}>
+    updateUser = (user) => {
+        user._id = this.state.id
+        var response = updateUser(user);
+        console.log('Post update', response);
+        this.setState({
+            ...this.state,
+            user: response,
+            editView: false,
+        });
+        //TODO: Update user should accept success or error function that can allow us to capture error.
+        // console.log(response);
+        // if (response.error) {
+        //     this.setState({
+        //         error: response.error,
+        //     });
+        // }
+    }
 
-                                    <div className="profile-skills-label">Skills:</div>{this.state.user.interests.map((intrst, index) => (<Chip key={index} backgroundColor={blue300} style={styles.chip}>{intrst}</Chip>))}
-                                </div>
-                            </div>
-                        }
+
+    render() {
+        if (this.state.editView) {
+            return (
+                <Paper>
+                    <div className="p-b-33">
+                        <div className="profile-edit-panel-box p-l-30 p-r-30 p-t-10 p-b-9">
+                            <ProfileFormComponent user={this.state.user} submitHandle={this.updateUser} cancelHandle={this.closeProfileEditView} submitLabel="Save" />
+                        </div>
                     </div>
-                </div>
-            </Paper>
-        )
+                </Paper>
+            )
+        }
+        else {
+            return (
+                <Paper>
+                    <div className="p-b-33 p-t-150">
+                        <div className="profile-panel-box p-b-33">
+                            {this.renderError()}
+                            {this.state.user._id &&
+                                <div className="p-t-70">
+                                    <img src={avatarIcon} className="profile-img" />
+                                    <div className="div-center profile-volunteer-name">{this.state.user.name}
+                                        <IconButton color="primary" tooltip="Edit" tooltipPosition="bottom-right" onClick={(event) => this.showProfileEditView()}>
+                                            <EditIcon color={blue300} />
+                                        </IconButton>
+                                    </div>
+                                    <div className="div-center profile-volunteer-attrs p-b-9">
+                                        {this.renderField(<EmailIcon className="profile-volunteer-icons" />, this.state.user.email)}
+                                        {this.renderField(<CallIcon className="profile-volunteer-icons" />, this.state.user.phone)}
+                                        {this.renderField(<MapIcon className="profile-volunteer-icons" />, this.state.user.country + ' - ' + this.state.user.region)}
+                                    </div>
+                                    <div className="div-center profile-skils p-t-13" style={styles.wrapper}>
+                                        <div className="profile-skills-label">Skills:</div>
+                                        {this.state.user.interests.map((intrst, index) => (<Chip key={index} backgroundColor={blue300} style={styles.chip}>{intrst}</Chip>))}
+                                        {this.state.user.skills.map((skills, index) => (<Chip key={index} backgroundColor={blue300} style={styles.chip}>{skills}</Chip>))}
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </Paper>
+            )
+        }
     }
 }
 
