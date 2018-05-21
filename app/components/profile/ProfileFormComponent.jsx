@@ -36,9 +36,6 @@ class ProfileFormComponent extends React.Component {
             interests: props.user && props.user.interests,
             skills: props.user && props.user.skills,
             skillsInput: props.user && props.user.skills && props.user.skills.toString(),
-            passphrase: '',
-            retypePassphrase: '',
-            isAdmin: false,
             checkboxInterests: checkInter,
             errors: {
                 name: '',
@@ -119,15 +116,6 @@ class ProfileFormComponent extends React.Component {
         if (this.state.phone.length < 10) {
             errors.number = 'Please enter a valid phone number with country code.'
         }
-        if (!this.state.passphrase) {
-            errors.passphrase = 'Please enter a passphrase.'
-        }
-        if (!this.state.retypePassphrase) {
-            errors.retypePassphrase = 'Please retype your passphrase.'
-        }
-        if (this.state.passphrase !== this.state.retypePassphrase) {
-            errors.passphrase = 'Passphrases do not match.'
-        }
         if (!this.state.country) {
             errors.country = 'Please select a country.'
         }
@@ -148,7 +136,6 @@ class ProfileFormComponent extends React.Component {
         if (Object.keys(errors).length == 0) {
             var user = this.state
             delete user.errors
-            delete user.retypePassphrase
             delete user.checkboxInterests
             delete user.skillsInput
             this.props.submitHandle(user);
@@ -162,8 +149,6 @@ class ProfileFormComponent extends React.Component {
                     <div className="checkBoxStyle"><TextField type="text" name="name" value={this.state.name} floatingLabelText="Name" errorText={this.state.errors.name} onChange={(e) => this.handleField('name', e)} /></div>
                     <div><TextField type="text" name="email" value={this.state.email} floatingLabelText="Email" errorText={this.state.errors.email} onChange={(e) => this.handleField('email', e)} /></div>
                     <div><TextField type="number" floatingLabelText="Phone 15558971234" name="phone" value={this.state.phone} errorText={this.state.errors.number} onChange={(e) => this.handleField('phone', e)} /></div>
-                    <div><TextField type="password" name="passphrase" value={this.state.passphrase} floatingLabelText="Passphrase" errorText={this.state.errors.passphrase} onChange={(e) => this.handleField('passphrase', e)} /></div>
-                    <div><TextField type="password" name="retypePassphrase" value={this.state.retypePassphrase} floatingLabelText="Retype Passphrase" errorText={this.state.errors.retypePassphrase} onChange={(e) => this.handleField('retypePassphrase', e)} /></div>
                     <div className="countryRegionContainer">
                         <CountryDropdown
                             value={this.state.country}

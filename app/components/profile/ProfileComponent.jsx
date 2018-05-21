@@ -100,20 +100,20 @@ class ProfileComponent extends React.Component {
 
     updateUser = (user) => {
         user._id = this.state.id
-        var response = updateUser(user);
-        console.log('Post update', response);
-        this.setState({
-            ...this.state,
-            user: response,
-            editView: false,
-        });
-        //TODO: Update user should accept success or error function that can allow us to capture error.
-        // console.log(response);
-        // if (response.error) {
-        //     this.setState({
-        //         error: response.error,
-        //     });
-        // }
+        updateUser(user).then(response => {
+            console.log('Post update', response);
+            this.setState({
+                ...this.state,
+                user: response,
+                editView: false,
+            })
+        }).catch(error => {
+            console.log('The error: ', error)
+            this.setState({
+                ...this.state,
+                error: error,
+            })
+        })
     }
 
 
@@ -149,8 +149,11 @@ class ProfileComponent extends React.Component {
                                         {this.renderField(<MapIcon className="profile-volunteer-icons" />, this.state.user.country + ' - ' + this.state.user.region)}
                                     </div>
                                     <div className="div-center profile-skils p-t-13" style={styles.wrapper}>
-                                        <div className="profile-skills-label">Skills:</div>
+                                        <div className="profile-skills-label">Interests:</div>
                                         {this.state.user.interests.map((intrst, index) => (<Chip key={index} backgroundColor={blue300} style={styles.chip}>{intrst}</Chip>))}
+                                    </div>
+                                    <div className="div-center profile-skils p-t-13" style={styles.wrapper}>
+                                        <div className="profile-skills-label">Skills:</div>
                                         {this.state.user.skills.map((skills, index) => (<Chip key={index} backgroundColor={blue300} style={styles.chip}>{skills}</Chip>))}
                                     </div>
                                 </div>
