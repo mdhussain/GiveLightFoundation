@@ -101,19 +101,23 @@ class ProfileComponent extends React.Component {
     updateUser = (user) => {
         user._id = this.state.id
         updateUser(user).then(response => {
-            console.log('Post update', response);
             this.setState({
                 ...this.state,
                 user: response,
                 editView: false,
-            })
+            });
         }).catch(error => {
-            console.log('The error: ', error)
             this.setState({
-                ...this.state,
                 error: error,
-            })
-        })
+            });
+        });
+        //TODO: Update user should accept success or error function that can allow us to capture error.
+        // console.log(response);
+        // if (response.error) {
+        //     this.setState({
+        //         error: response.error,
+        //     });
+        // }
     }
 
 

@@ -164,11 +164,13 @@ const updateUser = (newUser) => {
         ...newUser
     }
     let data = cleanupData(uploadData)
-    return makeRequest(data, 'PUT', '/api/user').then(response => {
-        return response.json()
-    }).catch(error => {
-        console.log(error)
-        return console.log(error)
+    return new Promise((resolve, reject) => {
+        makeRequest(data, 'PUT', '/api/user').then(response => {
+            return resolve(response.json())
+        }).catch(error => {
+            console.log(error)
+            return reject(error)
+        })
     })
 }
 
